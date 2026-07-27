@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report Executivo de Qualidade</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F8F9FA; --panel: #FFFFFF; --pink: #FF007A; --ink: #111827; --muted: #6B7280; --line: #E5E7EB;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+  body { background: var(--bg); color: var(--ink); padding: 24px; }
+  
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--line); padding-bottom: 16px; }
+  h1 { font-family: 'Space Grotesk', sans-serif; font-size: 20px; color: var(--ink); }
+
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); margin-bottom: 20px; }
+  .card h2 { font-size: 14px; font-family: 'JetBrains Mono', monospace; color: var(--pink); text-transform: uppercase; margin-bottom: 12px; }
+
+  .metric-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+  .metric-row:last-child { border-bottom: none; }
+  .score { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--pink); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🧠 Central de Monitorias & Report de Qualidade</h1>
+  <button style="background:var(--pink); color:#fff; border:none; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;" onclick="alert('Relatório ZIP gerado com sucesso!')">Exportar Report ZIP</button>
+</div>
+
+<div class="card">
+  <h2>[ Indicadores de Auditoria — Semana Atual ]</h2>
+  <div class="metric-row">
+    <span>Conformidade de Procedimentos</span>
+    <span class="score">98.2%</span>
+  </div>
+  <div class="metric-row">
+    <span>Linguagem & Empatia no Atendimento</span>
+    <span class="score">96.0%</span>
+  </div>
+  <div class="metric-row">
+    <span>Registro Correto em CRM (SLA de Dados)</span>
+    <span class="score">92.5%</span>
+  </div>
+  <div class="metric-row">
+    <span>Nota Geral da Equipe</span>
+    <span class="score" style="font-size:16px;">95.5%</span>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radar de Aderência à Escala</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F8F9FA; --panel: #FFFFFF; --pink: #FF007A; --ink: #111827; --muted: #6B7280; --line: #E5E7EB;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+  body { background: var(--bg); color: var(--ink); padding: 24px; }
+  
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--line); padding-bottom: 16px; }
+  h1 { font-family: 'Space Grotesk', sans-serif; font-size: 20px; color: var(--ink); }
+
+  .agents-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+  .agent-card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; position: relative; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+  .agent-card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+  
+  .card-ok::before { background: #10B981; }
+  .card-pausa::before { background: #3B82F6; }
+  .card-alerta::before { background: var(--pink); }
+
+  .agent-name { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .agent-status { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+  .time-badge { margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; display: inline-block; padding: 2px 6px; background: #F3F4F6; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📡 Radar de Aderência à Escala & Pausas NR-17</h1>
+  <span style="font-family:'JetBrains Mono'; font-size:11px; color:#10B981;">🟢 MONITORAMENTO AO VIVO</span>
+</div>
+
+<div class="agents-grid">
+  <div class="agent-card card-ok">
+    <div class="agent-name">Gabriel Santos</div>
+    <div class="agent-status">Em Atendimento (Chamado #401)</div>
+    <div class="time-badge">Aderência: 100%</div>
+  </div>
+
+  <div class="agent-card card-pausa">
+    <div class="agent-name">Fernanda Lima</div>
+    <div class="agent-status">Pausa Regulamentar NR-17</div>
+    <div class="time-badge" style="color:#3B82F6;">08m / 10m</div>
+  </div>
+
+  <div class="agent-card card-alerta">
+    <div class="agent-name">Matheus Oliveira</div>
+    <div class="agent-status">Pausa Lanche Excedida</div>
+    <div class="time-badge" style="color:var(--pink);">24m / 20m (+4m)</div>
+  </div>
+
+  <div class="agent-card card-ok">
+    <div class="agent-name">Juliana Rocha</div>
+    <div class="agent-status">Em Atendimento (Fila Prioritária)</div>
+    <div class="time-badge">Aderência: 98%</div>
+  </div>
+</div>
+
+</body>
+</html>

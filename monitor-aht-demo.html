@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitor AHT — Gestão de SLA</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F8F9FA; --panel: #FFFFFF; --pink: #FF007A; --ink: #111827; --muted: #6B7280; --line: #E5E7EB;
+    --ok: #10B981; --atencao: #F59E0B; --alerta: #EF4444;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+  body { background: var(--bg); color: var(--ink); padding: 24px; }
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--line); padding-bottom: 16px; }
+  h1 { font-family: 'Space Grotesk', sans-serif; font-size: 20px; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+  .badge-demo { font-family: 'JetBrains Mono', monospace; font-size: 11px; background: #FFF0F6; color: var(--pink); padding: 4px 10px; border-radius: 6px; border: 1px solid #FFB3D9; }
+  
+  .grid { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
+  @media(max-width:768px){ .grid { grid-template-columns: 1fr; } }
+
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+  .card h2 { font-size: 14px; font-family: 'JetBrains Mono', monospace; color: var(--pink); text-transform: uppercase; margin-bottom: 12px; }
+  
+  textarea { width: 100%; height: 120px; padding: 10px; border: 1px solid var(--line); border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; resize: none; margin-bottom: 12px; }
+  .btn { width: 100%; background: var(--pink); color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; }
+  .btn:hover { opacity: 0.9; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 12.5px; }
+  th { text-align: left; padding: 8px 12px; background: #FCF8FA; border-bottom: 1px solid var(--line); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  
+  .status { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+  .status-ok { background: #E6F4EA; color: var(--ok); }
+  .status-atencao { background: #FEF3C7; color: var(--atencao); }
+  .status-critico { background: #FEE2E2; color: var(--alerta); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>⏱️ Monitor AHT — Triagem & SLA de Atendimento</h1>
+  <span class="badge-demo">PROTÓTIPO OPERACIONAL</span>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h2>[ Simulador de Entrada ]</h2>
+    <p style="font-size:12px; color:var(--muted); margin-bottom:10px;">Cole dados brutos da fila ou clique para testar a classificação com Regex:</p>
+    <textarea id="inputText">[INC-9012] Operador: Lucas Silva | Tempo: 03m 15s
+[INC-9013] Operador: Ana Souza | Tempo: 14m 50s
+[INC-9014] Operador: Carlos Eduardo | Tempo: 08m 20s</textarea>
+    <button class="btn" onclick="processar()">Processar & Classificar SLA</button>
+  </div>
+
+  <div class="card">
+    <h2>[ Painel de Casos Monitorados ]</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>TICKET / INCIDENTE</th>
+          <th>OPERADOR</th>
+          <th>TEMPO (AHT)</th>
+          <th>STATUS SLA</th>
+        </tr>
+      </thead>
+      <tbody id="tablaCasos">
+        <tr>
+          <td>#INC-8821</td>
+          <td>Mariana Costa</td>
+          <td>04m 12s</td>
+          <td><span class="status status-ok">DENTRO DO SLA</span></td>
+        </tr>
+        <tr>
+          <td>#INC-8822</td>
+          <td>Lucas Silva</td>
+          <td>09m 45s</td>
+          <td><span class="status status-atencao">ATENÇÃO</span></td>
+        </tr>
+        <tr>
+          <td>#INC-8823</td>
+          <td>Ana Souza</td>
+          <td>16m 10s</td>
+          <td><span class="status status-critico">ESTOURO CRÍTICO</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  function processar() {
+    alert("Simulação: 3 novos casos analisados e categorizados por Regex no histórico!");
+  }
+</script>
+
+</body>
+</html>

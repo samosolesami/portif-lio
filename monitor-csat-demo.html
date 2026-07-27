@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitor CSAT Executivo</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F8F9FA; --panel: #FFFFFF; --pink: #FF007A; --ink: #111827; --muted: #6B7280; --line: #E5E7EB;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+  body { background: var(--bg); color: var(--ink); padding: 24px; }
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--line); padding-bottom: 16px; }
+  h1 { font-family: 'Space Grotesk', sans-serif; font-size: 20px; color: var(--ink); }
+  
+  .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+  .kpi-card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+  .kpi-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); text-transform: uppercase; }
+  .kpi-val { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700; color: var(--pink); margin-top: 4px; }
+
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); margin-bottom: 20px; }
+  .card h2 { font-size: 14px; font-family: 'JetBrains Mono', monospace; color: var(--pink); text-transform: uppercase; margin-bottom: 12px; }
+
+  .bar-group { display: flex; flex-direction: column; gap: 12px; }
+  .bar-item { display: flex; align-items: center; justify-content: space-between; font-size: 13px; }
+  .progress-bg { width: 60%; height: 8px; background: #F3E8EE; border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--pink); border-radius: 99px; }
+  
+  .insight-box { background: #FCF5F8; border: 1px solid #FFB3D9; border-radius: 10px; padding: 14px; font-size: 12.5px; color: var(--ink); line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📊 Monitor CSAT Executivo — Visão Consolidada</h1>
+  <span style="font-family:'JetBrains Mono'; font-size:11px; color:var(--muted);">ATUALIZAÇÃO AO VIVO</span>
+</div>
+
+<div class="kpi-grid">
+  <div class="kpi-card">
+    <div class="kpi-label">CSAT Geral da Operação</div>
+    <div class="kpi-val">91.4%</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Pesquisas Respondidas</div>
+    <div class="kpi-val">1,420</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Meta de Satisfação</div>
+    <div class="kpi-val" style="color:var(--ink);">88.0%</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>[ Ranking de Satisfação por Supervisor ]</h2>
+  <div class="bar-group">
+    <div class="bar-item">
+      <span>Equipe Alpha (Sup. Beatriz)</span>
+      <div class="progress-bg"><div class="progress-fill" style="width: 95%;"></div></div>
+      <strong>95.0%</strong>
+    </div>
+    <div class="bar-item">
+      <span>Equipe Beta (Sup. Rodrigo)</span>
+      <div class="progress-bg"><div class="progress-fill" style="width: 91%;"></div></div>
+      <strong>91.2%</strong>
+    </div>
+    <div class="bar-item">
+      <span>Equipe Gamma (Sup. Camila)</span>
+      <div class="progress-bg"><div class="progress-fill" style="width: 86%;"></div></div>
+      <strong>86.5%</strong>
+    </div>
+  </div>
+</div>
+
+<div class="insight-box">
+  💡 <strong>Insight Automático do Dia:</strong> O turno da manhã atingiu picos de 96% CSAT correlacionados com o AHT médio de 03m40s. A principal alavanca de melhoria está na fila de retenção da Equipe Gamma.
+</div>
+
+</body>
+</html>
