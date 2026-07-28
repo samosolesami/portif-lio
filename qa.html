@@ -1,0 +1,1802 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+  <style>
+    :root {
+      --roxo1: rgb(75,75,249);
+      --roxo2: rgb(9,9,45);
+      --rosa: rgb(255,141,149);
+      --verde: rgb(138,240,186);
+      --amarelo: rgb(248,239,119);
+      --lilas: rgb(190,160,255);
+      --fundo: #f7f7fb;
+      --texto: #111133;
+      --suave: #66667a;
+      --borda: #e6e6f2;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--fundo);
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--texto);
+    }
+
+    .topbar {
+      padding: 16px 28px;
+      display: flex;
+      gap: 12px;
+      background: white;
+      border-bottom: 1px solid var(--borda);
+      position: sticky;
+      top: 0;
+      z-index: 99;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-weight: 800;
+      cursor: pointer;
+      background: var(--roxo1);
+      color: white;
+    }
+
+    button.secondary {
+      background: white;
+      color: var(--roxo2);
+      border: 1px solid var(--borda);
+    }
+
+    input, select {
+      width: 200px;
+      border: 1px solid var(--borda);
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-weight: 800;
+      color: var(--roxo2);
+      background: white;
+    }
+
+    .slide {
+      width: 1600px;
+      min-height: 900px;
+      max-height: calc(100vh - 110px);
+      margin: 28px auto;
+      padding: 34px 54px 52px;
+      background: #fff;
+      border-radius: 22px;
+      overflow-y: auto;
+      position: relative;
+      border: 1px solid var(--borda);
+      box-shadow: 0 18px 45px rgba(9,9,45,.10);
+    }
+
+    .export-slide {
+      max-height: none !important;
+      height: auto !important;
+      overflow: visible !important;
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: linear-gradient(90deg, var(--roxo1), #1ea7ff, var(--rosa), #29c56d, #f5d51b, var(--lilas));
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 42px;
+      color: var(--roxo2);
+      letter-spacing: -1px;
+    }
+
+    .sub {
+      margin: 6px 0 0;
+      color: var(--suave);
+      font-size: 18px;
+    }
+
+    .logo-texto {
+      font-size: 34px;
+      font-weight: 900;
+      color: var(--roxo2);
+      margin-top: 8px;
+      letter-spacing: -1px;
+    }
+
+    .pill {
+      margin-top: 10px;
+      display: inline-block;
+      padding: 8px 15px;
+      border-radius: 999px;
+      background: #f1f0ff;
+      color: var(--roxo1);
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .filter-panel {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      background: #fbfbff;
+      border: 1px solid var(--borda);
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 14px;
+      align-items: center;
+    }
+
+    .home-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-top: 30px;
+    }
+
+    .home-card {
+      min-height: 210px;
+      border: 1px solid var(--borda);
+      border-radius: 24px;
+      padding: 24px;
+      background: linear-gradient(180deg, #ffffff, #fbfbff);
+      box-shadow: 0 12px 26px rgba(9,9,45,.06);
+      cursor: pointer;
+    }
+
+    .home-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f1f0ff;
+      color: var(--roxo1);
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .home-title {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--roxo2);
+      margin-bottom: 8px;
+    }
+
+    .home-text {
+      color: var(--suave);
+      line-height: 1.4;
+      font-size: 15px;
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+      border: 1px solid var(--borda);
+      border-radius: 18px;
+      padding: 12px;
+      box-shadow: 0 8px 18px rgba(9,9,45,.04);
+    }
+
+    .kpi {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 9px;
+      align-items: center;
+      border-right: 1px solid var(--borda);
+    }
+
+    .kpi:last-child { border-right: 0; }
+
+    .ico {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      font-weight: 900;
+    }
+
+    .ico.roxo { background: #f0edff; color: var(--roxo1); }
+    .ico.rosa { background: #ffe9ed; color: #e53d68; }
+    .ico.verde { background: #e9faef; color: #15964a; }
+    .ico.amarelo { background: #fff8d8; color: #c59a00; }
+    .ico.critico { background: #ffe9ed; color: #d83b56; }
+
+    .kpi-label {
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--roxo2);
+    }
+
+    .kpi-value {
+      font-size: 23px;
+      font-weight: 900;
+      color: var(--roxo1);
+      line-height: 1;
+      margin: 3px 0;
+    }
+
+    .kpi-sub {
+      color: var(--suave);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .exec-grid {
+      display: grid;
+      grid-template-columns: 1fr 2.1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .insight-card {
+      border: 1px solid var(--borda);
+      border-radius: 18px;
+      padding: 15px 16px;
+      background: linear-gradient(180deg, #ffffff, #fbfbff);
+      box-shadow: 0 8px 18px rgba(9,9,45,.05);
+      min-height: 92px;
+    }
+
+    .insight-label {
+      font-size: 13px;
+      color: var(--suave);
+      font-weight: 900;
+      margin-bottom: 7px;
+    }
+
+    .insight-title {
+      font-size: 18px;
+      color: var(--roxo2);
+      font-weight: 900;
+      line-height: 1.18;
+      margin-bottom: 5px;
+    }
+
+    .insight-text {
+      font-size: 13.5px;
+      color: #3d3d58;
+      line-height: 1.28;
+    }
+
+    .executive-reading {
+      border: 1px solid #dad6ff;
+      border-radius: 20px;
+      padding: 18px 22px;
+      background: linear-gradient(135deg, #f6f4ff, #ffffff);
+      box-shadow: 0 8px 18px rgba(9,9,45,.05);
+    }
+
+    .executive-reading .insight-label {
+      color: var(--roxo1);
+      font-size: 14px;
+    }
+
+    .executive-reading .insight-title {
+      font-size: 23px;
+      line-height: 1.18;
+      margin-bottom: 9px;
+    }
+
+    .executive-reading .insight-text {
+      font-size: 15.5px;
+      line-height: 1.45;
+      color: #252545;
+    }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .chart-card {
+      border: 1px solid var(--borda);
+      border-radius: 20px;
+      padding: 16px 18px;
+      background: #ffffff;
+      box-shadow: 0 8px 18px rgba(9,9,45,.05);
+    }
+
+    .chart-title {
+      font-size: 17px;
+      font-weight: 900;
+      color: var(--roxo2);
+      margin-bottom: 3px;
+    }
+
+    .chart-sub {
+      color: var(--suave);
+      font-size: 12.5px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .line-chart {
+      height: 230px;
+      position: relative;
+      padding: 8px 8px 36px;
+      border-bottom: 1px solid var(--borda);
+    }
+
+    .line-chart svg {
+      width: 100%;
+      height: 185px;
+      display: block;
+      overflow: visible;
+    }
+
+    .line-labels {
+      display: grid;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .line-label {
+      font-size: 10.5px;
+      line-height: 1.1;
+      color: var(--suave);
+      text-align: center;
+      font-weight: 700;
+      height: auto;
+      overflow: visible;
+    }
+
+    .mini-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-top: 8px;
+    }
+
+    .mini-row {
+      display: grid;
+      grid-template-columns: 1fr 48px;
+      gap: 10px;
+      align-items: center;
+      border-bottom: 1px solid #f0f0fa;
+      padding-bottom: 7px;
+    }
+
+    .mini-name {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #30304d;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .mini-value {
+      font-size: 13px;
+      font-weight: 900;
+      color: #d83b56;
+      text-align: right;
+    }
+
+    .ranking-large {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .ranking-row {
+      display: grid;
+      grid-template-columns: 42px 1fr 70px;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid #f0f0fa;
+      border-radius: 14px;
+      padding: 12px 14px;
+      background: #fff;
+    }
+
+    .rank-number {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: #f1f0ff;
+      color: var(--roxo1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+    }
+
+    .rank-name {
+      color: var(--roxo2);
+      font-size: 15px;
+      font-weight: 800;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .rank-value {
+      text-align: right;
+      color: #d83b56;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .case-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      padding-bottom: 12px;
+    }
+
+    .case-card {
+      display: grid;
+      grid-template-columns: 270px 1fr 58px;
+      gap: 18px;
+      align-items: start;
+      background: white;
+      border: 1px solid var(--borda);
+      border-radius: 17px;
+      padding: 12px 16px;
+      min-height: 82px;
+      box-shadow: 0 7px 16px rgba(9,9,45,.05);
+    }
+
+    .ticket {
+      color: var(--roxo1);
+      font-weight: 900;
+      font-size: 17px;
+      margin-bottom: 7px;
+    }
+
+    .meta {
+      font-size: 12px;
+      color: var(--suave);
+      line-height: 1.2;
+    }
+
+    .meta b {
+      display: block;
+      color: var(--roxo2);
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .tag {
+      margin-top: 6px;
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-weight: 900;
+      font-size: 11.5px;
+      border: 1px solid var(--roxo1);
+      color: var(--roxo1);
+      background: white;
+    }
+
+    .tag.nao {
+      border-color: #33a861;
+      color: #26964f;
+    }
+
+    .tag.critico {
+      border-color: #d83b56;
+      color: #d83b56;
+      background: #fff1f3;
+      margin-left: 4px;
+    }
+
+    .exp-title {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--roxo2);
+      margin-bottom: 5px;
+    }
+
+    .exp {
+      font-size: 13px;
+      line-height: 1.22;
+      color: #202040;
+      max-height: 48px;
+      overflow: hidden;
+    }
+
+    .agent-name {
+      margin-top: 5px;
+      font-size: 12px;
+      color: var(--suave);
+      font-weight: 700;
+    }
+
+    .agent-name b {
+      color: var(--roxo2);
+    }
+
+    .export-slide .exp {
+      max-height: none;
+      overflow: visible;
+    }
+
+    .trigger {
+      margin-top: 5px;
+      font-size: 12px;
+      color: var(--suave);
+    }
+
+    .trigger span {
+      font-weight: 900;
+      color: var(--roxo1);
+    }
+
+    .trigger b {
+      color: var(--roxo2);
+    }
+
+    .nota {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--roxo2);
+      background: var(--rosa);
+      border: 1px solid rgba(255,100,130,.55);
+    }
+
+    .nota.nota-alta { background: var(--verde); border-color: #59cf87; }
+    .nota.nota-media { background: var(--amarelo); border-color: #ebc900; }
+    .nota.nota-baixa { background: var(--rosa); }
+
+    .footer {
+      margin-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #70708c;
+      font-size: 13px;
+      border-top: 1px solid var(--borda);
+      padding-top: 10px;
+    }
+
+    .pager {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      max-width: 760px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .page-btn {
+      min-width: 30px;
+      height: 30px;
+      padding: 0 9px;
+      border-radius: 999px;
+      border: 1px solid var(--borda);
+      background: white;
+      color: var(--roxo2);
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: none;
+    }
+
+    .page-btn.ativo {
+      background: var(--roxo1);
+      color: white;
+      border-color: var(--roxo1);
+    }
+
+    .status {
+      padding: 60px;
+      font-size: 28px;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <button onclick="renderizarInicio()">🏠 Início</button>
+    <button onclick="abrirReport()">📊 Report</button>
+    <button onclick="abrirInsights()">🧠 Insights</button>
+    <button onclick="abrirDetalhe()">🔎 Detalhe</button>
+    <button onclick="exportarTudo()">📦 Exportar tudo</button>
+    <button onclick="baixarImagem()">⇩ Exportar página</button>
+  </div>
+
+  <section id="slide" class="slide">
+    <div class="status">Carregando...</div>
+  </section>
+
+  <script>
+    // ─── CONFIGURAÇÃO DE PAGINAÇÃO ───────────────────────────────
+    const MAX_PAGINAS_REPORT = 10; // 1 executiva + 9 de casos
+
+    function calcularCasosPorPagina(totalCasos) {
+      const paginasDeCasos = MAX_PAGINAS_REPORT - 1; // 9 páginas de casos
+      if (!totalCasos) return 7;
+      return Math.ceil(totalCasos / paginasDeCasos);
+    }
+    // ─────────────────────────────────────────────────────────────
+
+    let dadosBrutos   = [];
+    let dadosReport   = [];
+    let dadosInsights = [];
+    let paginaAtual   = 0;
+    let modoAtual     = 'inicio';
+
+    function carregar() {
+      carregarNotaManualSalva();
+      document.getElementById('slide').innerHTML = '<div class="status">Carregando monitorias...</div>';
+      carregarDados();
+    }
+
+    function carregarDados() {
+      google.script.run
+        .withSuccessHandler(resultado => {
+          dadosBrutos   = limparDadosInvalidos(resultado || []);
+          dadosReport   = [...dadosBrutos];
+          dadosInsights = [...dadosBrutos];
+          paginaAtual   = 0;
+          renderizarInicio();
+        })
+        .withFailureHandler(erro => {
+          document.getElementById('slide').innerHTML = `
+            <div class="status">
+              <h1>Erro ao carregar</h1>
+              <p>${escapeHtml(erro.message)}</p>
+            </div>
+          `;
+        })
+        .buscarDadosReportQualidade();
+    }
+
+    // ─────────────────────────────────────────
+    // INÍCIO
+    // ─────────────────────────────────────────
+
+    function renderizarInicio() {
+      modoAtual = 'inicio';
+
+      document.getElementById('slide').innerHTML = `
+        <div class="header">
+          <div>
+            <h1>Central de Qualidade</h1>
+            <p class="sub">Escolha como deseja visualizar o report.</p>
+            <span class="pill">${dadosBrutos.length} monitorias válidas carregadas</span>
+          </div>
+          ${montarLogoSAMI()}
+        </div>
+
+        <div class="home-grid">
+          <div class="home-card" onclick="abrirReport()">
+            <div class="home-icon">📊</div>
+            <div class="home-title">Overview Qualidade</div>
+            <div class="home-text">Indicadores, leitura executiva, gráficos e casos detalhados. Abre no dia atual.</div>
+          </div>
+          <div class="home-card" onclick="abrirInsights()">
+            <div class="home-icon">🧠</div>
+            <div class="home-title">Insights</div>
+            <div class="home-text">Ranking manual combinando métrica e agrupamento.</div>
+          </div>
+          <div class="home-card" onclick="abrirDetalhe()">
+            <div class="home-icon">🔎</div>
+            <div class="home-title">Detalhe</div>
+            <div class="home-text">Busque um ticket específico e veja o caso completo.</div>
+          </div>
+          <div class="home-card" onclick="exportarTudo()">
+            <div class="home-icon">📦</div>
+            <div class="home-title">Exportar</div>
+            <div class="home-text">Baixa o report inteiro em um ZIP com todas as imagens.</div>
+          </div>
+        </div>
+
+        ${montarResumoInicio()}
+
+        <div class="footer">
+          <span><b style="color:var(--roxo1)">SAMI</b> · Qualidade</span>
+          <span>Início</span>
+          <span>Gerado em: ${dataHoraAgora()}</span>
+          <span>Powered by SAMI</span>
+        </div>
+      `;
+    }
+
+    function montarResumoInicio() {
+      if (!dadosBrutos.length) {
+        return '<div class="status">Nenhuma monitoria carregada.</div>';
+      }
+
+      const hojeIso   = obterHojeIso();
+      const dadosHoje = dadosBrutos.filter(item => item.diaIso === hojeIso);
+      const base      = dadosHoje.length ? dadosHoje : dadosBrutos;
+
+      const topProblema = topValor(base, 'problema');
+      const criticos    = contarCriticos(base);
+
+      return `
+        <div class="exec-grid" style="margin-top:24px;">
+          <div class="insight-card">
+            <div class="insight-label">🔥 Top problema ${dadosHoje.length ? 'de hoje' : 'do histórico'}</div>
+            <div class="insight-title">${escapeHtml(topProblema.nome)}</div>
+            <div class="insight-text">${topProblema.qtd} ocorrência(s).</div>
+          </div>
+          <div class="executive-reading">
+            <div class="insight-label">🧭 Leitura inicial</div>
+            <div class="insight-title">${dadosHoje.length || dadosBrutos.length} monitorias válidas disponíveis.</div>
+            <div class="insight-text">
+              Foram identificados <b>${criticos.total}</b> caso(s) críticos válidos ${dadosHoje.length ? 'hoje' : 'no histórico carregado'}.
+              Para ver histórico, clique em Report e depois em "Ver tudo".
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ─────────────────────────────────────────
+    // REPORT
+    // ─────────────────────────────────────────
+
+    function abrirReport() {
+      modoAtual   = 'report';
+      paginaAtual = 0;
+      renderizarReport();
+    }
+
+    function renderizarReport() {
+      document.getElementById('slide').innerHTML = `
+        <div class="header">
+          <div>
+            <h1>Overview Qualidade</h1>
+            <p class="sub">Indicadores, leitura executiva, gráficos e casos detalhados.</p>
+            <span class="pill">📅 Report diário</span>
+          </div>
+          ${montarLogoSAMI()}
+        </div>
+
+        <div class="filter-panel">
+          <input id="filtroDataReport" type="date" onchange="aplicarFiltrosReport()">
+          <input id="filtroSupervisorReport" type="text" placeholder="Filtrar supervisor" oninput="aplicarFiltrosReport()">
+          <input id="notaManual" type="text" placeholder="Nota média manual" onchange="salvarNotaManual()">
+          <button class="secondary" onclick="limparFiltrosReport()">Ver tudo</button>
+        </div>
+
+        <div id="conteudoReport"></div>
+      `;
+
+      carregarNotaManualSalva();
+
+      const inputData = document.getElementById('filtroDataReport');
+      if (inputData) inputData.value = obterHojeIso();
+
+      aplicarFiltrosReport();
+    }
+
+    function aplicarFiltrosReport() {
+      const data       = document.getElementById('filtroDataReport')?.value || '';
+      const supervisor = normalizar(document.getElementById('filtroSupervisorReport')?.value || '');
+
+      dadosReport = dadosBrutos.filter(item => {
+        const dataOk       = data       ? item.diaIso === data                             : true;
+        const supervisorOk = supervisor ? normalizar(item.supervisor).includes(supervisor) : true;
+        return dataOk && supervisorOk;
+      });
+
+      paginaAtual = 0;
+      renderizarConteudoReport();
+    }
+
+    function limparFiltrosReport() {
+      document.getElementById('filtroDataReport').value       = '';
+      document.getElementById('filtroSupervisorReport').value = '';
+      dadosReport = [...dadosBrutos];
+      paginaAtual = 0;
+      renderizarConteudoReport();
+    }
+
+    function renderizarConteudoReport() {
+      const div = document.getElementById('conteudoReport');
+      if (!div) return;
+
+      if (!dadosReport.length) {
+        div.innerHTML = '<div class="status">Sem monitorias válidas para o filtro selecionado.</div>';
+        return;
+      }
+
+      div.innerHTML = montarPaginaReport(getCasosPaginaReport(), false, paginaAtual);
+    }
+
+    // ─────────────────────────────────────────
+    // PAGINAÇÃO ✅
+    // ─────────────────────────────────────────
+
+    function totalPaginasReport() {
+      const casosPorPagina = calcularCasosPorPagina(dadosReport.length);
+      return 1 + Math.ceil(dadosReport.length / casosPorPagina);
+    }
+
+    function getCasosPaginaReport() {
+      if (paginaAtual === 0) return [];
+      const casosPorPagina = calcularCasosPorPagina(dadosReport.length);
+      const inicio = (paginaAtual - 1) * casosPorPagina;
+      const fim    = inicio + casosPorPagina;
+      return dadosReport.slice(inicio, fim);
+    }
+
+    // ─────────────────────────────────────────
+    // INSIGHTS
+    // ─────────────────────────────────────────
+
+    function abrirInsights() {
+      modoAtual     = 'insights';
+      dadosInsights = [...dadosBrutos];
+      renderizarInsights();
+    }
+
+    function renderizarInsights() {
+      document.getElementById('slide').innerHTML = `
+        <div class="header">
+          <div>
+            <h1>Insights</h1>
+            <p class="sub">Monte rankings manuais combinando métrica e agrupamento.</p>
+            <span class="pill">🧠 Visão analítica</span>
+          </div>
+          ${montarLogoSAMI()}
+        </div>
+
+        <div class="filter-panel">
+          <input id="filtroDataInsights" type="date" onchange="aplicarFiltrosInsights()">
+          <input id="filtroSupervisorInsights" type="text" placeholder="Filtrar supervisor" oninput="aplicarFiltrosInsights()">
+
+          <select id="filtroMetricaInsights" onchange="renderizarConteudoInsights()">
+            <option value="criticos">Casos críticos</option>
+            <option value="total">Total de casos</option>
+            <option value="controlaveis">Controláveis</option>
+            <option value="naoControlaveis">Não controláveis</option>
+          </select>
+
+          <select id="filtroAgrupamentoInsights" onchange="renderizarConteudoInsights()">
+            <option value="nomeAgente">Agente</option>
+            <option value="supervisor">Supervisor</option>
+            <option value="submittedBy">Monitor de qualidade</option>
+            <option value="problema">Problema</option>
+            <option value="mercado">Mercado</option>
+          </select>
+
+          <button class="secondary" onclick="limparFiltrosInsights()">Ver tudo</button>
+        </div>
+
+        <div id="conteudoInsights"></div>
+      `;
+
+      const inputData = document.getElementById('filtroDataInsights');
+      if (inputData) inputData.value = obterHojeIso();
+
+      aplicarFiltrosInsights();
+    }
+
+    function aplicarFiltrosInsights() {
+      const data       = document.getElementById('filtroDataInsights')?.value || '';
+      const supervisor = normalizar(document.getElementById('filtroSupervisorInsights')?.value || '');
+
+      dadosInsights = dadosBrutos.filter(item => {
+        const dataOk       = data       ? item.diaIso === data                             : true;
+        const supervisorOk = supervisor ? normalizar(item.supervisor).includes(supervisor) : true;
+        return dataOk && supervisorOk;
+      });
+
+      renderizarConteudoInsights();
+    }
+
+    function limparFiltrosInsights() {
+      document.getElementById('filtroDataInsights').value       = '';
+      document.getElementById('filtroSupervisorInsights').value = '';
+      dadosInsights = [...dadosBrutos];
+      renderizarConteudoInsights();
+    }
+
+    function renderizarConteudoInsights() {
+      const div = document.getElementById('conteudoInsights');
+      if (!div) return;
+
+      const metrica     = document.getElementById('filtroMetricaInsights')?.value    || 'criticos';
+      const agrupamento = document.getElementById('filtroAgrupamentoInsights')?.value || 'nomeAgente';
+
+      const ranking = montarRankingInteligente(dadosInsights, metrica, agrupamento).slice(0, 12);
+      const titulo  = obterTituloRanking(metrica, agrupamento);
+
+      div.innerHTML = `
+        <div class="executive-reading">
+          <div class="insight-label">Resultado do insight</div>
+          <div class="insight-title">${escapeHtml(titulo)}</div>
+          <div class="insight-text">
+            Ranking calculado sobre <b>${dadosInsights.length}</b> monitoria(s) válidas, respeitando os filtros selecionados.
+          </div>
+        </div>
+
+        <div class="ranking-large">
+          ${ranking.length
+            ? ranking.map((item, index) => `
+                <div class="ranking-row">
+                  <div class="rank-number">${index + 1}</div>
+                  <div class="rank-name" title="${escapeHtml(item.nome)}">${escapeHtml(item.nome)}</div>
+                  <div class="rank-value">${item.qtd}</div>
+                </div>
+              `).join('')
+            : '<div class="status">Sem dados válidos para esse ranking.</div>'
+          }
+        </div>
+
+        <div class="footer">
+          <span><b style="color:var(--roxo1)">SAMI</b> · Qualidade</span>
+          <span>Insights</span>
+          <span>Gerado em: ${dataHoraAgora()}</span>
+          <span>Powered by SAMI</span>
+        </div>
+      `;
+    }
+
+    // ─────────────────────────────────────────
+    // DETALHE
+    // ─────────────────────────────────────────
+
+    function abrirDetalhe() {
+      modoAtual = 'detalhe';
+
+      document.getElementById('slide').innerHTML = `
+        <div class="header">
+          <div>
+            <h1>Detalhe por ticket</h1>
+            <p class="sub">Busque um caso específico pelo número do ticket.</p>
+            <span class="pill">🔎 Busca individual</span>
+          </div>
+          ${montarLogoSAMI()}
+        </div>
+
+        <div class="filter-panel">
+          <input id="buscaTicket" type="text" placeholder="Digite o ticket" onkeydown="if(event.key === 'Enter') buscarTicket()">
+          <button onclick="buscarTicket()">Buscar caso</button>
+          <button class="secondary" onclick="abrirDetalhe()">Limpar</button>
+        </div>
+
+        <div class="status">
+          Digite o ticket acima para visualizar a monitoria completa.
+        </div>
+
+        <div class="footer">
+          <span><b style="color:var(--roxo1)">SAMI</b> · Qualidade</span>
+          <span>Detalhe</span>
+          <span>Gerado em: ${dataHoraAgora()}</span>
+          <span>Powered by SAMI</span>
+        </div>
+      `;
+    }
+
+    function buscarTicket() {
+      const termo = String(document.getElementById('buscaTicket').value || '').trim().replace('#', '');
+      if (!termo) return;
+
+      const caso = dadosBrutos.find(item => {
+        const ticket = String(item.ticket || '').replace('#', '').trim();
+        return ticket === termo || ticket.includes(termo);
+      });
+
+      if (!caso) {
+        document.getElementById('slide').innerHTML = `
+          <div class="status">
+            <h1>Ticket não encontrado</h1>
+            <p>Não encontrei nenhum caso com o ticket informado.</p>
+          </div>
+        `;
+        return;
+      }
+
+      document.getElementById('slide').innerHTML = montarDetalheCaso(caso);
+    }
+
+    function montarDetalheCaso(caso) {
+      const texto            = primeiraValida([caso.explicacaoNaoControlavel, caso.descricao]) || 'Sem explicação preenchida.';
+      const ehNaoControlavel = normalizar(caso.controlavel).includes('nao');
+      const controlavel      = ehNaoControlavel ? 'Não controlável' : 'Controlável';
+      const tipoCritico      = primeiraValida([caso.tipoCritico]);
+      const ehCritico        = tipoCritico && !ehTipoNaoCritico(tipoCritico);
+
+      const trigger = primeiraValida(
+        ehNaoControlavel
+          ? [caso.tipoNaoControlavel, caso.criterioNaoControlavel]
+          : [caso.tipoControlavel,    caso.impactoControlavel]
+      ) || 'Sem trigger válido';
+
+      return `
+        <div class="header">
+          <div>
+            <h1>Detalhe do caso</h1>
+            <p class="sub">Visão completa da monitoria selecionada.</p>
+            <span class="pill"># ${escapeHtml(caso.ticket)} · ${escapeHtml(caso.dia || '')}</span>
+          </div>
+          ${montarLogoSAMI()}
+        </div>
+
+        <div class="filter-panel">
+          <input id="buscaTicket" type="text" placeholder="Digite o ticket" value="${escapeHtml(caso.ticket)}" onkeydown="if(event.key === 'Enter') buscarTicket()">
+          <button onclick="buscarTicket()">Buscar outro caso</button>
+          <button class="secondary" onclick="abrirDetalhe()">Limpar</button>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi">
+            <div class="ico roxo">#</div>
+            <div>
+              <div class="kpi-label">Ticket</div>
+              <div class="kpi-value">${escapeHtml(caso.ticket)}</div>
+              <div class="kpi-sub">caso selecionado</div>
+            </div>
+          </div>
+          <div class="kpi">
+            <div class="ico rosa">★</div>
+            <div>
+              <div class="kpi-label">Nota TCSAT</div>
+              <div class="kpi-value" style="color:#e53d68">${escapeHtml(caso.nota || '-')}</div>
+              <div class="kpi-sub">base original</div>
+            </div>
+          </div>
+          <div class="kpi">
+            <div class="ico verde">✓</div>
+            <div>
+              <div class="kpi-label">Classificação</div>
+              <div class="kpi-value" style="font-size:21px;color:#15964a">${escapeHtml(controlavel)}</div>
+              <div class="kpi-sub">controlável ou não</div>
+            </div>
+          </div>
+          <div class="kpi">
+            <div class="ico critico">!</div>
+            <div>
+              <div class="kpi-label">Tipo crítico</div>
+              <div class="kpi-value" style="font-size:20px;color:#d83b56">${escapeHtml(ehCritico ? tipoCritico : '-')}</div>
+              <div class="kpi-sub">válido</div>
+            </div>
+          </div>
+          <div class="kpi">
+            <div class="ico amarelo">🎯</div>
+            <div>
+              <div class="kpi-label">Mercado</div>
+              <div class="kpi-value" style="font-size:18px;color:#c59a00">${escapeHtml(primeiraValida([caso.mercado]) || '-')}</div>
+              <div class="kpi-sub">missão</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="exec-grid">
+          <div class="insight-card">
+            <div class="insight-label">🔥 Problema</div>
+            <div class="insight-title">${escapeHtml(primeiraValida([caso.problema]) || 'Sem problema válido')}</div>
+            <div class="insight-text">Canal: ${escapeHtml(primeiraValida([caso.canal]) || '-')}</div>
+          </div>
+          <div class="executive-reading">
+            <div class="insight-label">⚡ Trigger e contexto</div>
+            <div class="insight-title">${escapeHtml(trigger)}</div>
+            <div class="insight-text">
+              Classificação: <b>${escapeHtml(controlavel)}</b>.
+              Tipo crítico: <b>${escapeHtml(ehCritico ? tipoCritico : '-')}</b>.
+              Mercado/missão: <b>${escapeHtml(primeiraValida([caso.mercado]) || '-')}</b>.
+              Agente: <b>${escapeHtml(primeiraValida([caso.nomeAgente]) || 'Sem agente informado')}</b>.
+            </div>
+          </div>
+        </div>
+
+        <div class="case-card" style="display:block; min-height:auto;">
+          <div class="ticket"># ${escapeHtml(caso.ticket)}</div>
+          <div style="font-size:16px; color:#202040; line-height:1.55;">
+            <b>Explicação completa:</b><br><br>
+            ${escapeHtml(texto)}
+            <br><br><b>Agente:</b> ${escapeHtml(primeiraValida([caso.nomeAgente]) || 'Sem agente informado')}
+            <br><br><b>Feedback aplicado:</b> ${escapeHtml(primeiraValida([caso.feedbackAplicado]) || '-')}
+            <br><br><b>Detalhes do feedback:</b> ${escapeHtml(primeiraValida([caso.detalhesFeedback]) || '-')}
+          </div>
+        </div>
+
+        <div class="footer">
+          <span><b style="color:var(--roxo1)">SAMI</b> · Qualidade</span>
+          <span>Detalhe individual do caso</span>
+          <span>Gerado em: ${dataHoraAgora()}</span>
+          <span>Powered by SAMI</span>
+        </div>
+      `;
+    }
+
+    // ─────────────────────────────────────────
+    // MONTAGEM DO REPORT
+    // ─────────────────────────────────────────
+
+    function montarPaginaReport(casos, modoExportacao, paginaReferencia) {
+      const primeiraPagina  = paginaReferencia === 0;
+      const total           = dadosReport.length;
+      const qtdPaginas      = totalPaginasReport();
+      const notaMediaManual = obterNotaMediaManual();
+
+      const controlaveis = dadosReport.filter(d => {
+        const valor = normalizar(d.controlavel);
+        return valor.includes('controlavel') && !valor.includes('nao');
+      });
+
+      const naoControlaveis = dadosReport.filter(d => {
+        const valor = normalizar(d.controlavel);
+        return valor.includes('nao');
+      });
+
+      const criticos = contarCriticos(dadosReport);
+
+      return `
+        ${primeiraPagina ? montarKpis(total, notaMediaManual, controlaveis, naoControlaveis, criticos) : ''}
+        ${primeiraPagina ? montarLeituraExecutiva(controlaveis, naoControlaveis, criticos)              : ''}
+        ${primeiraPagina ? montarAreaGraficos(dadosReport)                                              : ''}
+
+        ${!primeiraPagina ? `
+          <div class="case-list">
+            ${casos.map(montarCardCaso).join('')}
+          </div>
+        ` : ''}
+
+        <div class="footer">
+          <span><b style="color:var(--roxo1)">SAMI</b> · Qualidade</span>
+
+          ${modoExportacao ? `
+            <span>${primeiraPagina ? 'Página executiva' : `Exportação · ${casos.length} monitorias nesta imagem`}</span>
+          ` : `
+            <div class="pager">
+              <button class="page-btn" onclick="irParaPaginaReport(${paginaAtual - 1})">‹</button>
+              ${montarBotoesPaginas(qtdPaginas)}
+              <button class="page-btn" onclick="irParaPaginaReport(${paginaAtual + 1})">›</button>
+            </div>
+          `}
+
+          <span>Gerado em: ${dataHoraAgora()}</span>
+          <span>Powered by SAMI</span>
+        </div>
+      `;
+    }
+
+    function montarKpis(total, notaMediaManual, controlaveis, naoControlaveis, criticos) {
+      const notaTexto = notaMediaManual === null
+        ? '-'
+        : notaMediaManual.toFixed(2).replace('.', ',');
+
+      return `
+        <div class="kpis">
+          <div class="kpi">
+            <div class="ico roxo">#</div>
+            <div>
+              <div class="kpi-label">Total</div>
+              <div class="kpi-value">${total}</div>
+              <div class="kpi-sub">casos</div>
+            </div>
+          </div>
+          <div class="kpi">
+            <div class="ico rosa">★</div>
+            <div>
+              <div class="kpi-label">Nota</div>
+              <div class="kpi-value" style="color:#e53d68">${notaTexto}</div>
+              <div class="kpi-sub">manual</div>
+            </div>
+          </div>
+          <div class="kpi">
+            <div class="ico verde">✓</div>
+            <div>
+              <div class="kpi-label">Controláveis</div>
+              <div class="kpi-value" style="color:#15964a">${controlaveis.length}</div>
+              <div class="kpi-sub">${percentual(controlaveis.length, total)}%</div>
+            </div>
+          </div>
+          <div class="kpi">
+            <div class="ico amarelo">⊘</div>
+            <div>
+              <div class="kpi-label">Não controláveis</div>
+              <div class="kpi-value" style="color:#c59a00">${naoControlaveis.length}</div>
+              <div class="kpi-sub">${percentual(naoControlaveis.length, total)}%</div>
+            </div>
+          </div>
+          <div class="kpi">
+            <div class="ico critico">!</div>
+            <div>
+              <div class="kpi-label">Críticos</div>
+              <div class="kpi-value" style="color:#d83b56">${criticos.total}</div>
+              <div class="kpi-sub">válidos</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function montarLeituraExecutiva(controlaveis, naoControlaveis, criticos) {
+      const total       = dadosReport.length;
+      const topProblema = topValor(dadosReport, 'problema');
+      const topMercado  = topValor(dadosReport, 'mercado');
+      const topCliente  = topValor(dadosReport, 'tipoCliente');
+
+      return `
+        <div class="executive-reading">
+          <div class="insight-label">🧭 Leitura executiva</div>
+          <div class="insight-title">
+            ${percentual(controlaveis.length, total)}% dos casos foram classificados como controláveis.
+          </div>
+          <div class="insight-text">
+            O maior volume do período está concentrado em <b>${escapeHtml(topProblema.nome)}</b>, com ${topProblema.qtd} ocorrência(s),
+            indicando o principal ponto de atenção para alinhamento operacional.
+            O mercado/missão com maior recorrência foi <b>${escapeHtml(topMercado.nome)}</b>,
+            enquanto o tipo de cliente mais frequente foi <b>${escapeHtml(topCliente.nome)}</b>.
+            Foram identificados <b>${criticos.total}</b> caso(s) críticos válidos,
+            desconsiderando registros classificados como "O Caso Não É Crítico".
+          </div>
+        </div>
+      `;
+    }
+
+    function montarAreaGraficos(lista) {
+      return `
+        <div class="charts-grid">
+          ${montarGraficoLinhasProblemas(lista)}
+          ${montarGraficoCriticos(lista)}
+        </div>
+      `;
+    }
+
+    function montarGraficoLinhasProblemas(lista) {
+      let ranking = contar(lista, 'problema').slice(0, 6);
+      if (!ranking.length) ranking = contar(lista, 'subcategoriaCorreta').slice(0, 6);
+
+      if (!ranking.length) return `
+        <div class="chart-card">
+          <div class="chart-title">Problema identificado por categoria</div>
+          <div class="chart-sub">Top 6 problemas mais recorrentes.</div>
+          <div class="status" style="padding:30px;font-size:20px;">Sem dados válidos.</div>
+        </div>`;
+
+      const maior = ranking.qtd || 1;
+      const W     = 600;
+      const H     = 140;
+      const padX  = 40;
+      const padT  = 28;
+      const padB  = 18;
+
+      const pontos = ranking.map((item, i) => ({
+        ...item,
+        x: ranking.length === 1 ? W / 2 : padX + (i / (ranking.length - 1)) * (W - padX * 2),
+        y: padT + ((1 - item.qtd / maior) * (H - padT - padB))
+      }));
+
+      const id = 'grafico-problemas-' + Date.now();
+
+      setTimeout(() => {
+        const canvas = document.getElementById(id);
+        if (!canvas) return;
+        const ctx    = canvas.getContext('2d');
+        const scaleX = canvas.width  / W;
+        const scaleY = canvas.height / H;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.strokeStyle = '#e6e6f2';
+        ctx.lineWidth   = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(padX * scaleX, (H - padB) * scaleY);
+        ctx.lineTo((W - padX) * scaleX, (H - padB) * scaleY);
+        ctx.stroke();
+
+        if (pontos.length > 1) {
+          ctx.strokeStyle = 'rgb(75,75,249)';
+          ctx.lineWidth   = 3;
+          ctx.lineJoin    = 'round';
+          ctx.lineCap     = 'round';
+          ctx.beginPath();
+          pontos.forEach((p, i) => {
+            i === 0 ? ctx.moveTo(p.x * scaleX, p.y * scaleY)
+                    : ctx.lineTo(p.x * scaleX, p.y * scaleY);
+          });
+          ctx.stroke();
+        }
+
+        pontos.forEach(p => {
+          ctx.fillStyle = 'rgb(75,75,249)';
+          ctx.beginPath();
+          ctx.arc(p.x * scaleX, p.y * scaleY, 5 * scaleX, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = 'rgb(9,9,45)';
+          ctx.font      = `800 ${13 * scaleY}px Arial`;
+          ctx.textAlign = 'center';
+          ctx.fillText(p.qtd, p.x * scaleX, (p.y - 10) * scaleY);
+        });
+      }, 100);
+
+      return `
+        <div class="chart-card">
+          <div class="chart-title">Problema identificado por categoria</div>
+          <div class="chart-sub">Top 6 problemas mais recorrentes.</div>
+          <div class="line-chart">
+            <canvas id="${id}" width="1200" height="320" style="width:100%;height:160px;display:block;"></canvas>
+            <div class="line-labels" style="grid-template-columns:repeat(${ranking.length},1fr);">
+              ${ranking.map(item => `
+                <div class="line-label" title="${escapeHtml(item.nome)}">${escapeHtml(item.nome)}</div>
+              `).join('')}
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function montarGraficoCriticos(lista) {
+      const criticos = contarCriticos(lista);
+      const ranking  = criticos.ranking.slice(0, 6);
+
+      return `
+        <div class="chart-card">
+          <div class="chart-title">Tipos de casos críticos</div>
+          <div class="chart-sub">Apenas tipos críticos válidos.</div>
+          ${ranking.length ? `
+            <div class="mini-list">
+              ${ranking.map(item => `
+                <div class="mini-row">
+                  <div class="mini-name" title="${escapeHtml(item.nome)}">${escapeHtml(item.nome)}</div>
+                  <div class="mini-value">${item.qtd}</div>
+                </div>
+              `).join('')}
+            </div>
+          ` : `
+            <div class="status" style="padding:30px;font-size:20px;">Sem casos críticos válidos no filtro atual.</div>
+          `}
+        </div>
+      `;
+    }
+
+    function montarCardCaso(caso) {
+      const texto        = primeiraValida([caso.explicacaoNaoControlavel, caso.descricao]) || 'Sem explicação preenchida.';
+      const nota         = Number(caso.nota);
+      const classeNota   = nota >= 9 ? 'nota-alta' : nota >= 7 ? 'nota-media' : 'nota-baixa';
+
+      const ehNaoControlavel = normalizar(caso.controlavel).includes('nao');
+      const controlavel      = ehNaoControlavel ? 'Não controlável' : 'Controlável';
+      const tagClasse        = ehNaoControlavel ? 'tag nao' : 'tag';
+
+      const tipoCritico = primeiraValida([caso.tipoCritico]);
+      const ehCritico   = tipoCritico && !ehTipoNaoCritico(tipoCritico);
+
+      const trigger = primeiraValida(
+        ehNaoControlavel
+          ? [caso.tipoNaoControlavel, caso.criterioNaoControlavel]
+          : [caso.tipoControlavel,    caso.impactoControlavel]
+      ) || 'Sem trigger válido';
+
+      return `
+        <div class="case-card">
+          <div>
+            <div class="ticket"># ${escapeHtml(caso.ticket)}</div>
+            <div class="meta">
+              Data: <b>${escapeHtml(caso.dia || '-')}</b>
+              Mercado: <b>${escapeHtml(primeiraValida([caso.mercado]) || 'Sem mercado válido')}</b>
+            </div>
+            <span class="${tagClasse}">${controlavel}</span>
+            ${ehCritico ? `<span class="tag critico">Crítico: ${escapeHtml(tipoCritico)}</span>` : ''}
+          </div>
+          <div>
+            <div class="exp-title">${escapeHtml(primeiraValida([caso.problema]) || 'Problema não informado')}</div>
+            <div class="exp">${escapeHtml(texto)}</div>
+            <div class="agent-name">Agente: <b>${escapeHtml(primeiraValida([caso.nomeAgente]) || 'Sem agente informado')}</b></div>
+            <div class="trigger"><span>Trigger:</span> <b>${escapeHtml(trigger)}</b></div>
+          </div>
+          <div class="nota ${classeNota}">${escapeHtml(caso.nota || '-')}</div>
+        </div>
+      `;
+    }
+
+    function irParaPaginaReport(numero) {
+      const qtdPaginas = totalPaginasReport();
+      if (numero < 0) numero = qtdPaginas - 1;
+      if (numero >= qtdPaginas) numero = 0;
+      paginaAtual = numero;
+      renderizarConteudoReport();
+    }
+
+    function montarBotoesPaginas(qtdPaginas) {
+      let html = '';
+      for (let i = 0; i < qtdPaginas; i++) {
+        html += `
+          <button class="page-btn ${i === paginaAtual ? 'ativo' : ''}" onclick="irParaPaginaReport(${i})">
+            ${i + 1}
+          </button>
+        `;
+      }
+      return html;
+    }
+
+    // ─────────────────────────────────────────
+    // INSIGHTS — LÓGICA
+    // ─────────────────────────────────────────
+
+    function montarRankingInteligente(lista, metrica, agrupamento) {
+      const mapa = {};
+
+      lista.forEach(item => {
+        const nome = primeiraValida([item[agrupamento]]);
+        if (!nome) return;
+
+        let conta = false;
+
+        if (metrica === 'total')           conta = true;
+        if (metrica === 'criticos') {
+          const tipo = primeiraValida([item.tipoCritico]);
+          conta = tipo && !ehTipoNaoCritico(tipo);
+        }
+        if (metrica === 'controlaveis') {
+          const valor = normalizar(item.controlavel);
+          conta = valor.includes('controlavel') && !valor.includes('nao');
+        }
+        if (metrica === 'naoControlaveis') {
+          const valor = normalizar(item.controlavel);
+          conta = valor.includes('nao');
+        }
+
+        if (!conta) return;
+        mapa[nome] = (mapa[nome] || 0) + 1;
+      });
+
+      return Object.entries(mapa)
+        .map(([nome, qtd]) => ({ nome, qtd }))
+        .sort((a, b) => b.qtd - a.qtd);
+    }
+
+    function obterTituloRanking(metrica, agrupamento) {
+      const metricas = {
+        criticos:        'Casos críticos',
+        total:           'Total de casos',
+        controlaveis:    'Casos controláveis',
+        naoControlaveis: 'Casos não controláveis'
+      };
+      const agrupamentos = {
+        submittedBy: 'por monitor de qualidade',
+        nomeAgente:  'por agente',
+        supervisor:  'por supervisor',
+        problema:    'por problema',
+        mercado:     'por mercado/missão'
+      };
+      return `${metricas[metrica] || 'Ranking'} ${agrupamentos[agrupamento] || ''}`;
+    }
+
+    function contarCriticos(lista) {
+      const somenteCriticos = lista.filter(item => {
+        const tipo = primeiraValida([item.tipoCritico]);
+        return tipo && !ehTipoNaoCritico(tipo);
+      });
+      const ranking = contar(somenteCriticos, 'tipoCritico');
+      return { total: somenteCriticos.length, top: ranking || { nome: '', qtd: 0 }, ranking };
+    }
+
+    function ehTipoNaoCritico(valor) {
+      const texto = normalizar(valor).replace(/\s+/g, ' ').trim();
+      const naoCriticos = [
+        'o caso nao e critico',
+        'o caso nao é critico',
+        'o caso não e critico',
+        'o caso não é crítico',
+        'nao critico',
+        'não crítico',
+        'nao e critico',
+        'não é crítico'
+      ].map(normalizar);
+      return naoCriticos.includes(texto);
+    }
+
+    // ─────────────────────────────────────────
+    // EXPORTAÇÃO
+    // ─────────────────────────────────────────
+
+    function baixarImagem() {
+      if (modoAtual === 'report') {
+        exportarPaginaUnica(paginaAtual);
+        return;
+      }
+      exportarElementoAtual();
+    }
+
+    async function exportarTudo() {
+      if (modoAtual !== 'report') {
+        abrirReport();
+        await esperar(600);
+      }
+
+      if (!dadosReport.length) {
+        alert('Não há dados para exportar.');
+        return;
+      }
+
+      const total = totalPaginasReport();
+      const zip   = new JSZip();
+      const pasta = zip.folder('report-qualidade-' + dataHojeArquivo());
+      const slide = document.getElementById('slide');
+
+      const mostrarProgresso = (atual, finalizando = false) => {
+        const pct = Math.round((atual / total) * 100);
+        slide.innerHTML = `
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:600px;gap:24px;">
+            <div style="font-size:52px;">${finalizando ? '📦' : '🖼️'}</div>
+            <div style="font-size:28px;font-weight:900;color:var(--roxo2);">
+              ${finalizando ? 'Empacotando ZIP...' : `Gerando imagem ${atual} de ${total}`}
+            </div>
+            <div style="width:480px;height:14px;background:#f0f0fa;border-radius:999px;overflow:hidden;border:1px solid var(--borda);">
+              <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,rgb(75,75,249),#1ea7ff);border-radius:999px;transition:width 0.3s ease;"></div>
+            </div>
+            <div style="font-size:16px;color:var(--suave);font-weight:700;">${pct}% concluído</div>
+          </div>`;
+      };
+
+      for (let i = 0; i < total; i++) {
+        mostrarProgresso(i + 1);
+        const blob = await gerarImagemBlob(i);
+        if (blob) {
+          const nome = `parte-${String(i + 1).padStart(2, '0')}-${i === 0 ? 'overview' : 'monitorias'}.png`;
+          pasta.file(nome, blob);
+        }
+        await esperar(300);
+      }
+
+      mostrarProgresso(total, true);
+
+      const zipBlob = await zip.generateAsync({ type: 'blob' });
+      const url     = URL.createObjectURL(zipBlob);
+      const nomeZip = `report-qualidade-${dataHojeArquivo()}.zip`;
+
+      const link = document.createElement('a');
+      link.href          = url;
+      link.download      = nomeZip;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+
+      setTimeout(() => {
+        URL.revokeObjectURL(url);
+        document.body.removeChild(link);
+      }, 3000);
+
+      await esperar(800);
+      renderizarReport();
+    }
+
+    async function gerarImagemBlob(indicePagina) {
+      const casosPorPagina = calcularCasosPorPagina(dadosReport.length);
+
+      const casosExportacao = indicePagina === 0
+        ? []
+        : dadosReport.slice(
+            (indicePagina - 1) * casosPorPagina,
+            indicePagina * casosPorPagina
+          );
+
+      const exportDiv = document.createElement('section');
+      exportDiv.className     = 'slide export-slide';
+      exportDiv.style.cssText = `
+        width:1600px; min-height:900px; max-height:none;
+        height:auto; overflow:visible;
+        position:absolute; left:-99999px; top:0;
+      `;
+
+      exportDiv.innerHTML = `
+        <div class="header">
+          <div>
+            <h1>${indicePagina === 0 ? 'Overview Qualidade' : 'Monitorias detalhadas'}</h1>
+            <span class="pill">📅 Report diário</span>
+          </div>
+          ${montarLogoSAMI()}
+        </div>
+        ${montarPaginaReport(casosExportacao, true, indicePagina)}`;
+
+      document.body.appendChild(exportDiv);
+      await esperar(300);
+
+      try {
+        const canvas = await html2canvas(exportDiv, {
+          scale: 2,
+          backgroundColor: '#ffffff',
+          useCORS: false,
+          allowTaint: true,
+          logging: false,
+          windowWidth: 1600,
+          windowHeight: exportDiv.scrollHeight
+        });
+        return await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+      } catch (erro) {
+        console.error(`Erro na página ${indicePagina + 1}:`, erro);
+        return null;
+      } finally {
+        document.body.removeChild(exportDiv);
+      }
+    }
+
+    async function exportarPaginaUnica(indicePagina) {
+      const blob = await gerarImagemBlob(indicePagina);
+      if (!blob) { alert('Erro ao gerar imagem.'); return; }
+
+      const url  = URL.createObjectURL(blob);
+      const nome = `report-qualidade-${dataHojeArquivo()}-parte-${String(indicePagina + 1).padStart(2, '0')}.png`;
+
+      const link = document.createElement('a');
+      link.href          = url;
+      link.download      = nome;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+
+      setTimeout(() => {
+        URL.revokeObjectURL(url);
+        document.body.removeChild(link);
+      }, 3000);
+    }
+
+    async function exportarElementoAtual() {
+      const slide = document.getElementById('slide');
+      try {
+        const canvas = await html2canvas(slide, {
+          scale: 2,
+          backgroundColor: '#ffffff',
+          useCORS: false,
+          allowTaint: true,
+          logging: false,
+          windowWidth: 1600,
+          windowHeight: slide.scrollHeight
+        });
+        const nome = `report-qualidade-${dataHojeArquivo()}-${modoAtual}.png`;
+        canvas.toBlob(blob => {
+          const url  = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href          = url;
+          link.download      = nome;
+          link.style.display = 'none';
+          document.body.appendChild(link);
+          link.click();
+          setTimeout(() => {
+            URL.revokeObjectURL(url);
+            document.body.removeChild(link);
+          }, 3000);
+        }, 'image/png');
+      } catch (erro) {
+        alert('Erro ao exportar: ' + erro.message);
+      }
+    }
+
+    // ─────────────────────────────────────────
+    // HELPERS
+    // ─────────────────────────────────────────
+
+    function salvarNotaManual() {
+      const input = document.getElementById('notaManual');
+      localStorage.setItem('notaMediaManualQualidade', String(input.value || '').trim());
+      if (modoAtual === 'report') renderizarConteudoReport();
+    }
+
+    function obterNotaMediaManual() {
+      const valor = localStorage.getItem('notaMediaManualQualidade');
+      if (!valor) return null;
+      const numero = Number(String(valor).replace(',', '.'));
+      return isNaN(numero) ? null : numero;
+    }
+
+    function carregarNotaManualSalva() {
+      const input = document.getElementById('notaManual');
+      const valor = localStorage.getItem('notaMediaManualQualidade');
+      if (input && valor) input.value = valor;
+    }
+
+    function limparDadosInvalidos(lista) {
+      return lista.filter(item => primeiraValida([item.explicacaoNaoControlavel, item.descricao]));
+    }
+
+    function primeiraValida(valores) {
+      for (let i = 0; i < valores.length; i++) {
+        const limpo = limparTextoInvalido(valores[i]);
+        if (limpo) return limpo;
+      }
+      return '';
+    }
+
+    function limparTextoInvalido(valor) {
+      const original = String(valor || '').trim();
+      const texto    = normalizar(original).replace(/\s+/g, ' ').trim();
+
+      const invalidos = [
+        '', 'n/a', 'na', '#n/a', '#n/a!', 'n.a', 'n.a.', 'n / a', 'n\\a', 'n\\a.',
+        '-', '--', '.', 'nao se aplica', 'nao aplicavel', 'sem informacao',
+        'sem dados', 'sem descricao', 'sem explicacao', 'nao informado', 'não informado'
+      ];
+
+      return invalidos.includes(texto) ? '' : original;
+    }
+
+    function contar(lista, campo) {
+      const mapa = {};
+      lista.forEach(item => {
+        const valor = primeiraValida([item[campo]]);
+        if (!valor) return;
+        mapa[valor] = (mapa[valor] || 0) + 1;
+      });
+      return Object.entries(mapa)
+        .map(([nome, qtd]) => ({ nome, qtd }))
+        .sort((a, b) => b.qtd - a.qtd);
+    }
+
+    function topValor(lista, campo) {
+      const resultado = contar(lista, campo);
+      return resultado || { nome: 'Sem dados válidos', qtd: 0 };
+    }
+
+    function percentual(valor, total) {
+      if (!total) return '0,0';
+      return ((valor / total) * 100).toFixed(1).replace('.', ',');
+    }
+
+    function normalizar(valor) {
+      return String(valor || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+    }
+
+    function montarLogoSAMI() {
+      return `<div class="logo-texto">SAMI</div>`;
+    }
+
+    function obterHojeIso() {
+      const hoje = new Date();
+      return `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, '0')}-${String(hoje.getDate()).padStart(2, '0')}`;
+    }
+
+    function dataHojeArquivo() {
+      const d = new Date();
+      return `${String(d.getDate()).padStart(2,'0')}-${String(d.getMonth()+1).padStart(2,'0')}-${d.getFullYear()}`;
+    }
+
+    function dataHoraAgora() {
+      return new Date().toLocaleString('pt-BR');
+    }
+
+    function esperar(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function escapeHtml(valor) {
+      return String(valor ?? '')
+        .replace(/&/g,  '&amp;')
+        .replace(/</g,  '&lt;')
+        .replace(/>/g,  '&gt;')
+        .replace(/"/g,  '&quot;')
+        .replace(/'/g,  '&#039;');
+    }
+
+    carregar();
+  </script>
+</body>
+</html>

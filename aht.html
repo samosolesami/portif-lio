@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    :root{
+      --roxo1:#4B4BF9;--roxo2:#09092D;--rosa:#FF8D95;
+      --verde:#8AF0BA;--amarelo:#F8EF77;--lilas:#BEA0FF;
+      --fundo:#fff;--fundo-suave:#f7f7ff;
+      --texto:#09092D;--texto-suave:#5c5c78;
+      --borda:#e8e8f5;--sombra:rgba(9,9,45,.10);
+    }
+    *{box-sizing:border-box;font-family:Arial,sans-serif;}
+    body{margin:0;background:var(--fundo);color:var(--texto);}
+    .app{padding:24px;min-height:100vh;}
+    .header{position:relative;background:var(--roxo2);color:#fff;border-radius:22px;padding:26px 30px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 14px 34px rgba(9,9,45,.20);overflow:hidden;}
+    .header::before{content:"";position:absolute;top:0;left:0;width:100%;height:8px;background:linear-gradient(90deg,#4B4BF9 0%,#7B66FF 14%,#BEA0FF 28%,#FF8D95 45%,#F8EF77 63%,#8AF0BA 82%,#4B4BF9 100%);}
+    .header>*{position:relative;z-index:1;}
+    .title{font-size:28px;font-weight:900;}
+    .subtitle{color:rgba(255,255,255,.78);font-size:13px;margin-top:7px;font-weight:600;}
+    .actions{display:flex;gap:10px;}
+    button{border:none;border-radius:14px;padding:12px 18px;font-weight:800;cursor:pointer;background:#fff;color:var(--roxo2);box-shadow:0 6px 16px rgba(9,9,45,.18);}
+    button.dark{background:var(--amarelo);color:var(--roxo2);}
+    button:disabled{opacity:.6;cursor:not-allowed;}
+    .cards{margin-top:22px;display:grid;grid-template-columns:repeat(6,1fr);gap:14px;}
+    .card{background:#fff;border-radius:20px;padding:18px;box-shadow:0 10px 26px var(--sombra);border:1px solid var(--borda);border-left:7px solid var(--lilas);}
+    .card.total{border-left-color:var(--roxo1);}
+    .card.ok{border-left-color:var(--verde);}
+    .card.atencao{border-left-color:var(--amarelo);}
+    .card.alerta{border-left-color:var(--lilas);}
+    .card.critico{border-left-color:var(--rosa);}
+    .card.info{border-left-color:var(--lilas);}
+    .card-label{font-size:12px;color:var(--texto-suave);font-weight:900;text-transform:uppercase;}
+    .card-value{margin-top:8px;font-size:34px;font-weight:950;color:var(--roxo2);}
+    .section{margin-top:22px;background:#fff;border-radius:22px;padding:22px;box-shadow:0 10px 26px var(--sombra);border:1px solid var(--borda);}
+    .section h2{margin:0 0 14px;font-size:19px;color:var(--roxo2);}
+    .hint{font-size:12px;color:var(--texto-suave);margin-top:-8px;margin-bottom:14px;font-weight:600;}
+    table{width:100%;border-collapse:collapse;font-size:13px;}
+    th{text-align:left;background:var(--fundo-suave);padding:12px;font-size:12px;text-transform:uppercase;color:var(--roxo2);border-bottom:1px solid var(--borda);}
+    td{padding:12px;border-bottom:1px solid var(--borda);vertical-align:middle;color:var(--texto);font-weight:600;}
+    tr:hover td{background:rgba(190,160,255,.10);}
+    .pill{display:inline-block;padding:7px 11px;border-radius:999px;font-size:12px;font-weight:950;white-space:nowrap;}
+    .st-ok{background:var(--verde);color:var(--roxo2);}
+    .st-atencao{background:var(--amarelo);color:var(--roxo2);}
+    .st-alerta{background:var(--lilas);color:var(--roxo2);}
+    .st-critico{background:var(--rosa);color:var(--roxo2);}
+    .nv-pontual{background:var(--verde);color:var(--roxo2);}
+    .nv-leve{background:var(--amarelo);color:var(--roxo2);}
+    .nv-alta{background:var(--roxo2);color:#fff;}
+    .nv-critica{background:var(--rosa);color:var(--roxo2);}
+    .empty{color:var(--texto-suave);padding:22px;background:var(--fundo-suave);border-radius:16px;text-align:center;font-weight:700;border:1px dashed var(--lilas);}
+    .footer{margin-top:16px;color:var(--texto-suave);font-size:12px;text-align:center;font-weight:600;}
+    .export-title{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:16px;}
+    .export-subtitle{color:var(--texto-suave);font-size:12px;font-weight:600;margin-top:3px;}
+    .export-summary{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+    .export-summary span{background:var(--fundo-suave);color:var(--roxo2);padding:8px 11px;border-radius:999px;font-size:12px;font-weight:900;border:1px solid var(--borda);}
+    #status-download{display:none;margin-top:14px;padding:14px 18px;border-radius:14px;background:var(--fundo-suave);border:1px solid var(--borda);font-size:13px;font-weight:700;color:var(--roxo2);}
+    #status-download a{color:var(--roxo1);font-weight:900;}
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <div>
+      <div class="title">Monitor AHT - SAMI</div>
+      <div class="subtitle">Atualizado em <span id="lblAtualizado"></span></div>
+    </div>
+    <div class="actions">
+      <button class="dark" id="btn-download" onclick="gerarImagemPrioritarios()">📥 Baixar imagem</button>
+    </div>
+  </div>
+
+  <div class="cards">
+    <div class="card total">  <div class="card-label">Total</div>  <div class="card-value" id="kpiTotal">0</div></div>
+    <div class="card ok">     <div class="card-label">OK</div>     <div class="card-value" id="kpiOk">0</div></div>
+    <div class="card atencao"><div class="card-label">Atenção</div><div class="card-value" id="kpiAtencao">0</div></div>
+    <div class="card alerta"> <div class="card-label">Alerta</div> <div class="card-value" id="kpiAlerta">0</div></div>
+    <div class="card critico"><div class="card-label">Crítico</div><div class="card-value" id="kpiCritico">0</div></div>
+    <div class="card info">   <div class="card-label">Alertas hoje</div><div class="card-value" id="kpiAlertasHoje">0</div></div>
+  </div>
+
+  <div class="section">
+    <div class="export-title">
+      <div>
+        <h2>Casos prioritários - Monitor AHT</h2>
+        <div class="export-subtitle">Atualizado em <span id="lblAtualizadoSub"></span></div>
+        <div class="export-subtitle">Última atualização por: <span id="lblResp"></span></div>
+      </div>
+      <div class="export-summary">
+        <span id="sumAtencao">Atenção: 0</span>
+        <span id="sumAlerta">Alerta: 0</span>
+        <span id="sumCritico">Crítico: 0</span>
+        <span id="sumAlertasHoje">Alertas hoje: 0</span>
+      </div>
+    </div>
+
+    <div id="tabelaPrioritariosContainer"></div>
+    <div id="status-download"></div>
+  </div>
+
+  <div class="section">
+    <h2>Reincidência</h2>
+    <div class="hint">Calculada por tickets distintos salvos no histórico.</div>
+    <div id="tabelaReincidenciaContainer"></div>
+  </div>
+
+  <div class="footer">
+    Monitor operacional gerado automaticamente via Google Sheets.<br>
+    <span style="display:inline-block;margin-top:8px;background:#09092D;color:#BEA0FF;font-size:11px;font-weight:800;padding:5px 14px;border-radius:999px;border:1px solid #BEA0FF;">Powered by SAMI</span>
+  </div>
+</div>
+
+<script>
+  // DADOS FALSOS PARA DEMONSTRAÇÃO DO PORTFÓLIO
+  const dados = {
+    atualizadoEm: new Date().toLocaleString('pt-BR'),
+    contadores: {
+      total: 124, ok: 82, atencao: 25, alerta: 12, critico: 5
+    },
+    metricasHoje: {
+      alertasHoje: 17, ultimoResponsavel: "Automático (Sistema)"
+    },
+    monitor: [
+      { ticket: "#109283", id_ag: "ID_MARIA", nome: "Maria Silva", gestor: "João Souza", tempo: "32 min atrás", status: "CRÍTICO" },
+      { ticket: "#109284", id_ag: "ID_PEDRO", nome: "Pedro Alves", gestor: "João Souza", tempo: "28 min atrás", status: "ALERTA" },
+      { ticket: "#109285", id_ag: "ID_LUCAS", nome: "Lucas Gomes", gestor: "Ana Costa", tempo: "26 min atrás", status: "ALERTA" },
+      { ticket: "#109286", id_ag: "ID_JULIA", nome: "Julia Santos", gestor: "Ana Costa", tempo: "21 min atrás", status: "ATENÇÃO" },
+      { ticket: "#109287", id_ag: "ID_CARLA", nome: "Carla Dias", gestor: "João Souza", tempo: "18 min atrás", status: "ATENÇÃO" }
+    ],
+    reincidencia: [
+      { id_ag: "ID_MARIA", nome: "Maria Silva", gestor: "João Souza", ocorrencias7: 6, criticos7: 3, nivel: "CRÍTICA", acao: "Acionamento imediato do gestor" },
+      { id_ag: "ID_LUCAS", nome: "Lucas Gomes", gestor: "Ana Costa", ocorrencias7: 4, criticos7: 1, nivel: "ALTA", acao: "Validar causa raiz com gestor" },
+      { id_ag: "ID_JULIA", nome: "Julia Santos", gestor: "Ana Costa", ocorrencias7: 2, criticos7: 0, nivel: "LEVE", acao: "Monitorar próximos registros" },
+      { id_ag: "ID_PEDRO", nome: "Pedro Alves", gestor: "João Souza", ocorrencias7: 1, criticos7: 1, nivel: "PONTUAL", acao: "Sem ação imediata" }
+    ]
+  };
+
+  const prioritarios = dados.monitor;
+  const reincidentes = dados.reincidencia;
+
+  document.getElementById('lblAtualizado').innerText = dados.atualizadoEm;
+  document.getElementById('lblAtualizadoSub').innerText = dados.atualizadoEm;
+  document.getElementById('lblResp').innerText = dados.metricasHoje.ultimoResponsavel;
+  
+  document.getElementById('kpiTotal').innerText = dados.contadores.total;
+  document.getElementById('kpiOk').innerText = dados.contadores.ok;
+  document.getElementById('kpiAtencao').innerText = dados.contadores.atencao;
+  document.getElementById('kpiAlerta').innerText = dados.contadores.alerta;
+  document.getElementById('kpiCritico').innerText = dados.contadores.critico;
+  document.getElementById('kpiAlertasHoje').innerText = dados.metricasHoje.alertasHoje;
+
+  document.getElementById('sumAtencao').innerText = 'Atenção: ' + dados.contadores.atencao;
+  document.getElementById('sumAlerta').innerText = 'Alerta: ' + dados.contadores.alerta;
+  document.getElementById('sumCritico').innerText = 'Crítico: ' + dados.contadores.critico;
+  document.getElementById('sumAlertasHoje').innerText = 'Alertas hoje: ' + dados.metricasHoje.alertasHoje;
+
+  function escaparHtml_(valor) {
+    return String(valor ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+  }
+
+  function classeStatus_(s) {
+    if (s==='OK') return 'st-ok';
+    if (s==='ATENÇÃO') return 'st-atencao';
+    if (s==='ALERTA') return 'st-alerta';
+    if (s==='CRÍTICO') return 'st-critico';
+    return '';
+  }
+
+  function classeNivel_(n) {
+    if (n==='CRÍTICA') return 'nv-critica';
+    if (n==='ALTA') return 'nv-alta';
+    if (n==='LEVE') return 'nv-leve';
+    return 'nv-pontual';
+  }
+
+  // Tabela Prioritários
+  let htmlPrio = '';
+  if(prioritarios.length) {
+    htmlPrio += '<table><thead><tr><th>Ticket</th><th>ID</th><th>Nome</th><th>Gestor</th><th>Tempo</th><th>Status</th></tr></thead><tbody>';
+    prioritarios.forEach(l => {
+      htmlPrio += `<tr>
+        <td>${escaparHtml_(l.ticket)}</td>
+        <td>${escaparHtml_(l.id_ag)}</td>
+        <td>${escaparHtml_(l.nome)}</td>
+        <td>${escaparHtml_(l.gestor)}</td>
+        <td>${escaparHtml_(l.tempo)}</td>
+        <td><span class="pill ${classeStatus_(l.status)}">${escaparHtml_(l.status)}</span></td>
+      </tr>`;
+    });
+    htmlPrio += '</tbody></table>';
+  } else {
+    htmlPrio = '<div class="empty">Nenhum caso em atenção, alerta ou crítico neste momento.</div>';
+  }
+  document.getElementById('tabelaPrioritariosContainer').innerHTML = htmlPrio;
+
+  // Tabela Reincidência
+  let htmlRein = '';
+  if(reincidentes.length) {
+    htmlRein += '<table><thead><tr><th>ID</th><th>Nome</th><th>Gestor</th><th>Tickets 7 dias</th><th>Tickets críticos</th><th>Nível</th><th>Ação sugerida</th></tr></thead><tbody>';
+    reincidentes.forEach(r => {
+      htmlRein += `<tr>
+        <td>${escaparHtml_(r.id_ag)}</td>
+        <td>${escaparHtml_(r.nome)}</td>
+        <td>${escaparHtml_(r.gestor)}</td>
+        <td>${escaparHtml_(r.ocorrencias7)}</td>
+        <td>${escaparHtml_(r.criticos7)}</td>
+        <td><span class="pill ${classeNivel_(r.nivel)}">${escaparHtml_(r.nivel)}</span></td>
+        <td>${escaparHtml_(r.acao)}</td>
+      </tr>`;
+    });
+    htmlRein += '</tbody></table>';
+  } else {
+    htmlRein = '<div class="empty">Ainda não há reincidência calculada.</div>';
+  }
+  document.getElementById('tabelaReincidenciaContainer').innerHTML = htmlRein;
+
+  function gerarImagemPrioritarios() {
+    alert("Função de exportação para Google Drive desabilitada na versão de demonstração do portfólio.");
+  }
+</script>
+</body>
+</html>

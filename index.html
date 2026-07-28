@@ -511,7 +511,7 @@
       
       <!-- Card 1 -->
       <div class="project-card" data-category="automacao" style="--accent:var(--pink)" 
-           onclick="abrirModal('Monitor AHT — Gestão de SLA', '⏱️', './monitor-aht-demo.html')">
+           onclick="abrirModalProjeto('Monitor AHT — Gestão de SLA', '⏱️', './aht.html')">
         <div class="project-icon">⏱️</div>
         <div>
           <div class="project-title">Monitor AHT — Gestão de SLA</div>
@@ -529,7 +529,7 @@
 
       <!-- Card 2 -->
       <div class="project-card" data-category="dashboards" style="--accent:var(--magenta)" 
-           onclick="abrirModal('Monitor CSAT Executivo', '📊', './monitor-csat-demo.html')">
+           onclick="abrirModalProjeto('Monitor CSAT Executivo', '📊', './csat.html')">
         <div class="project-icon">📊</div>
         <div>
           <div class="project-title">Monitor CSAT Executivo</div>
@@ -547,7 +547,7 @@
 
       <!-- Card 3 -->
       <div class="project-card" data-category="regras" style="--accent:var(--purple)" 
-           onclick="abrirModal('Radar de Aderência à Escala', '📡', './radar-aderencia-demo.html')">
+           onclick="abrirModalProjeto('Radar de Aderência à Escala', '📡', './radar.html')">
         <div class="project-icon">📡</div>
         <div>
           <div class="project-title">Radar de Aderência à Escala</div>
@@ -565,7 +565,7 @@
 
       <!-- Card 4 -->
       <div class="project-card" data-category="automacao" style="--accent:var(--rose)" 
-           onclick="abrirModal('Report Executivo de Qualidade', '🧠', './report-qualidade-demo.html')">
+           onclick="abrirModalProjeto('Report Executivo de Qualidade', '🧠', './qa.html')">
         <div class="project-icon">🧠</div>
         <div>
           <div class="project-title">Report Executivo de Qualidade</div>
@@ -662,12 +662,13 @@
 <div class="toast" id="toast">E-mail copiado para a área de transferência! 📋</div>
 
 <script>
-  function abrirModal(titulo, icone, arquivoDemo) {
+  function abrirModalProjeto(titulo, icone, arquivoDemo) {
     const modalOverlay = document.getElementById('modalOverlay');
     const modalTitle = document.getElementById('modalTitle');
     const modalFrame = document.getElementById('modalFrame');
 
     modalTitle.innerHTML = `<span>${icone}</span> ${titulo}`;
+    // Usamos o SRC apontando para os seus arquivos salvos na mesma pasta
     modalFrame.src = arquivoDemo;
 
     modalOverlay.classList.add('open');
@@ -679,7 +680,7 @@
     const modalFrame = document.getElementById('modalFrame');
 
     modalOverlay.classList.remove('open');
-    modalFrame.src = '';
+    modalFrame.src = ''; 
     document.body.style.overflow = '';
   }
 
