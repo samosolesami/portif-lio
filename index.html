@@ -74,6 +74,25 @@
   }
   .nav-links a { color: var(--muted); text-decoration: none; transition: color .15s; }
   .nav-links a:hover { color: var(--pink); }
+  
+  /* Botão de Troca de Idioma */
+  .lang-toggle {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--pink);
+    background: var(--pink-light);
+    border: 1px solid var(--pink-border);
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: 8px;
+  }
+  .lang-toggle:hover {
+    background: var(--pink);
+    color: #fff;
+  }
 
   .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
 
@@ -117,13 +136,7 @@
   }
   h1 em { font-style: normal; color: var(--pink); }
 
-  .hero-sub {
-    margin-top: 20px;
-    max-width: 650px;
-    font-size: 16px;
-    line-height: 1.6;
-    color: var(--muted);
-  }
+  .hero-sub { margin-top: 20px; max-width: 650px; font-size: 16px; line-height: 1.6; color: var(--muted); }
 
   .hero-actions {
     margin-top: 32px;
@@ -154,27 +167,8 @@
   .btn-ghost:hover { border-color: var(--pink-border); color: var(--pink); }
 
   /* STATUS STRIP */
-  .status-strip {
-    margin-top: 48px;
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    background: var(--panel);
-    overflow: hidden;
-    box-shadow: var(--shadow);
-  }
-  .status-strip-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 22px;
-    border-bottom: 1px solid var(--line);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: .5px;
-    text-transform: uppercase;
-    background: var(--panel-2);
-  }
+  .status-strip { margin-top: 48px; border: 1px solid var(--line); border-radius: 18px; background: var(--panel); overflow: hidden; box-shadow: var(--shadow); }
+  .status-strip-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 22px; border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; background: var(--panel-2); }
   .status-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
   .status-item { padding: 20px 22px; border-right: 1px solid var(--line); transition: background .15s; }
   .status-item:hover { background: var(--panel-2); }
@@ -182,142 +176,35 @@
   .status-item-top { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; margin-bottom: 8px; }
   .status-item-metric { font-family: var(--font-mono); font-size: 20px; font-weight: 600; }
   .status-item-label { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
-  @media(max-width: 860px) {
-    .status-grid { grid-template-columns: repeat(2, 1fr); }
-    .status-item:nth-child(2) { border-right: none; }
-    .status-item { border-bottom: 1px solid var(--line); }
-  }
+  @media(max-width: 860px) { .status-grid { grid-template-columns: repeat(2, 1fr); } .status-item:nth-child(2) { border-right: none; } .status-item { border-bottom: 1px solid var(--line); } }
 
   /* SECTIONS */
   section { padding: 60px 0; }
-  .section-eyebrow {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--pink);
-    letter-spacing: .5px;
-    margin-bottom: 8px;
-    font-weight: 600;
-  }
-  h2 {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: clamp(24px, 3.2vw, 34px);
-    letter-spacing: -.6px;
-    max-width: 680px;
-    color: var(--ink);
-  }
+  .section-eyebrow { font-family: var(--font-mono); font-size: 12px; color: var(--pink); letter-spacing: .5px; margin-bottom: 8px; font-weight: 600; }
+  h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(24px, 3.2vw, 34px); letter-spacing: -.6px; max-width: 680px; color: var(--ink); }
   .section-sub { margin-top: 10px; color: var(--muted); font-size: 15px; max-width: 620px; line-height: 1.6; }
 
   /* FILTROS DE PROJETO */
-  .filter-bar {
-    display: flex;
-    gap: 8px;
-    margin-top: 24px;
-    flex-wrap: wrap;
-  }
-  .filter-btn {
-    font-family: var(--font-mono);
-    font-size: 11.5px;
-    padding: 6px 14px;
-    border-radius: 999px;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    color: var(--muted);
-    cursor: pointer;
-    transition: all .15s;
-  }
-  .filter-btn:hover, .filter-btn.active {
-    background: var(--pink);
-    color: #fff;
-    border-color: var(--pink);
-  }
+  .filter-bar { display: flex; gap: 8px; margin-top: 24px; flex-wrap: wrap; }
+  .filter-btn { font-family: var(--font-mono); font-size: 11.5px; padding: 6px 14px; border-radius: 999px; background: var(--panel); border: 1px solid var(--line); color: var(--muted); cursor: pointer; transition: all .15s; }
+  .filter-btn:hover, .filter-btn.active { background: var(--pink); color: #fff; border-color: var(--pink); }
 
   /* PROJECT CARDS */
   .projects { margin-top: 24px; display: flex; flex-direction: column; gap: 16px; }
-  .project-card {
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    background: var(--panel);
-    padding: 24px 28px;
-    display: grid;
-    grid-template-columns: 56px 1fr auto;
-    gap: 20px;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-    transition: border-color .2s, transform .2s, box-shadow .2s;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    box-shadow: var(--shadow);
-  }
-  .project-card:hover {
-    border-color: var(--accent, var(--pink));
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-hover);
-  }
-  .project-card::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: var(--accent, var(--pink));
-  }
-  .project-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 14px;
-    background: var(--panel-2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    border: 1px solid var(--line);
-  }
+  .project-card { border: 1px solid var(--line); border-radius: 18px; background: var(--panel); padding: 24px 28px; display: grid; grid-template-columns: 56px 1fr auto; gap: 20px; align-items: center; text-decoration: none; color: inherit; transition: border-color .2s, transform .2s, box-shadow .2s; position: relative; overflow: hidden; cursor: pointer; box-shadow: var(--shadow); }
+  .project-card:hover { border-color: var(--accent, var(--pink)); transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+  .project-card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--accent, var(--pink)); }
+  .project-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--panel-2); display: flex; align-items: center; justify-content: center; font-size: 24px; border: 1px solid var(--line); }
   .project-title { font-family: var(--font-display); font-weight: 700; font-size: 18px; margin-bottom: 6px; color: var(--ink); }
   .project-desc { font-size: 14px; color: var(--muted); line-height: 1.55; max-width: 600px; }
   .project-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
-  .tag {
-    font-family: var(--font-mono);
-    font-size: 10.5px;
-    padding: 3px 9px;
-    border-radius: 999px;
-    background: var(--panel-2);
-    color: var(--muted);
-    border: 1px solid var(--line);
-  }
-  .project-cta {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--accent, var(--pink));
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
-    background: var(--panel-2);
-    border-radius: 8px;
-    border: 1px solid var(--line);
-    transition: all .15s;
-  }
+  .tag { font-family: var(--font-mono); font-size: 10.5px; padding: 3px 9px; border-radius: 999px; background: var(--panel-2); color: var(--muted); border: 1px solid var(--line); }
+  .project-cta { font-size: 13px; font-weight: 600; color: var(--accent, var(--pink)); white-space: nowrap; display: flex; align-items: center; gap: 6px; padding: 8px 14px; background: var(--panel-2); border-radius: 8px; border: 1px solid var(--line); transition: all .15s; }
   .project-card:hover .project-cta { background: var(--pink-light); border-color: var(--pink-border); }
-
-  @media(max-width: 720px) {
-    .project-card { grid-template-columns: 1fr; }
-    .project-cta { justify-content: center; width: 100%; margin-top: 8px; }
-  }
+  @media(max-width: 720px) { .project-card { grid-template-columns: 1fr; } .project-cta { justify-content: center; width: 100%; margin-top: 8px; } }
 
   /* SOBRE / VISÃO ESTRATÉGICA */
-  .about-card {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 32px;
-    margin-top: 24px;
-    box-shadow: var(--shadow);
-  }
+  .about-card { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 32px; margin-top: 24px; box-shadow: var(--shadow); }
   .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 20px; }
   .about-item { padding: 18px; background: var(--panel-2); border-radius: 12px; border: 1px solid var(--line); }
   .about-item h3 { font-family: var(--font-display); font-size: 15px; margin-bottom: 8px; color: var(--ink); display: flex; align-items: center; gap: 8px; }
@@ -325,104 +212,27 @@
 
   /* SKILLS */
   .skills-grid { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 10px; }
-  .skill-chip {
-    font-family: var(--font-mono);
-    font-size: 12.5px;
-    padding: 10px 18px;
-    border-radius: 12px;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    color: var(--ink);
-    box-shadow: var(--shadow);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+  .skill-chip { font-family: var(--font-mono); font-size: 12.5px; padding: 10px 18px; border-radius: 12px; background: var(--panel); border: 1px solid var(--line); color: var(--ink); box-shadow: var(--shadow); display: flex; align-items: center; gap: 8px; }
 
-  /* FOOTER & CONTATO */
-  footer {
-    border-top: 1px solid var(--line);
-    padding: 40px 0 50px;
-    text-align: center;
-    color: var(--muted);
-    font-size: 13.5px;
-  }
+  /* FOOTER */
+  footer { border-top: 1px solid var(--line); padding: 40px 0 50px; text-align: center; color: var(--muted); font-size: 13.5px; }
   footer a { color: var(--pink); text-decoration: none; font-weight: 600; }
   footer a:hover { text-decoration: underline; }
 
   /* MODAL */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(17, 24, 39, 0.65);
-    backdrop-filter: blur(4px);
-    z-index: 200;
-    padding: 20px;
-    align-items: center;
-    justify-content: center;
-  }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(17, 24, 39, 0.65); backdrop-filter: blur(4px); z-index: 200; padding: 20px; align-items: center; justify-content: center; }
   .modal-overlay.open { display: flex; }
-  .modal-box {
-    width: 100%;
-    max-width: 1300px;
-    height: 90vh;
-    background: #fff;
-    border-radius: 20px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 30px 80px rgba(17, 24, 39, 0.35);
-    border: 1px solid var(--line);
-    animation: modalIn .2s ease-out;
-  }
+  .modal-box { width: 100%; max-width: 1300px; height: 90vh; background: #fff; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 30px 80px rgba(17, 24, 39, 0.35); border: 1px solid var(--line); animation: modalIn .2s ease-out; }
   @keyframes modalIn { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: scale(1); } }
-
-  .modal-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 22px;
-    border-bottom: 1px solid var(--line);
-    background: var(--panel-2);
-    flex-shrink: 0;
-  }
+  .modal-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 22px; border-bottom: 1px solid var(--line); background: var(--panel-2); flex-shrink: 0; }
   .modal-head-title { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--ink); display: flex; align-items: center; gap: 8px; }
-  .modal-close {
-    border: 1px solid var(--line);
-    background: #fff;
-    border-radius: 8px;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    font-size: 16px;
-    color: var(--ink);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background .15s;
-  }
+  .modal-close { border: 1px solid var(--line); background: #fff; border-radius: 8px; width: 32px; height: 32px; cursor: pointer; font-size: 16px; color: var(--ink); display: flex; align-items: center; justify-content: center; transition: background .15s; }
   .modal-close:hover { background: var(--line); }
-
   .modal-body { flex: 1; overflow: hidden; position: relative; background: #fff; }
   .modal-body iframe { width: 100%; height: 100%; border: none; }
 
   /* TOAST NOTIFICATION */
-  .toast {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: var(--ink);
-    color: #fff;
-    padding: 12px 20px;
-    border-radius: 10px;
-    font-size: 13px;
-    font-family: var(--font-mono);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    display: none;
-    z-index: 300;
-    animation: toastUp .2s ease-out;
-  }
+  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--ink); color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-family: var(--font-mono); box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: none; z-index: 300; animation: toastUp .2s ease-out; }
   @keyframes toastUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 </style>
 </head>
@@ -430,227 +240,388 @@
 
 <div class="grad-bar"></div>
 
-<nav>
-  <div class="nav-inner">
-    <a href="#" class="nav-brand">samla<span>.dev</span></a>
-    <div class="nav-links">
-      <a href="#operacao">Sistemas</a>
-      <a href="#diferencial">Visão de Negócio</a>
-      <a href="#stack">Stack</a>
-      <a href="#contato">Contato</a>
-    </div>
-  </div>
-</nav>
-
-<div class="wrap">
-  
-  <!-- HERO -->
-  <div class="hero">
-    <div class="eyebrow"><span class="dot-live"></span> 4 Sistemas de Operação em Monitoramento</div>
-    <h1>Transformo planilhas travadas em <em>operações automatizadas que se monitoram sozinhas.</em></h1>
-    <p class="hero-sub">
-      <strong>Samla Almeida Cardoso</strong> — Analista de Operações & Desenvolvedora (ADS / Positivo | Jornalismo / Nilton Lins). 
-      Especializada em criar automações com Google Apps Script, dashboards interativos em JS e rotinas em Python/SQL para operações de alto volume com foco em Data Storytelling.
-    </p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="#operacao">Testar os Sistemas ↓</a>
-      <a class="btn btn-ghost" href="https://github.com/samosolesami" target="_blank">
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-        GitHub
-      </a>
-      <a class="btn btn-ghost" href="https://www.linkedin.com/in/samla-cardoso-7aa99b185/" target="_blank">LinkedIn</a>
-    </div>
-
-    <!-- STATUS STRIP -->
-    <div class="status-strip">
-      <div class="status-strip-head">
-        <span>Painel de Disponibilidade das Ferramentas</span>
-        <span>Status: 100% Operacional</span>
-      </div>
-      <div class="status-grid">
-        <div class="status-item">
-          <div class="status-item-top"><span class="dot-live" style="background:var(--pink)"></span> Monitor AHT</div>
-          <div class="status-item-metric" style="color:var(--pink)">Online</div>
-          <div class="status-item-label">Tempo Médio de Atendimento</div>
-        </div>
-        <div class="status-item">
-          <div class="status-item-top"><span class="dot-live" style="background:var(--magenta)"></span> Monitor CSAT</div>
-          <div class="status-item-metric" style="color:var(--magenta)">Online</div>
-          <div class="status-item-label">Satisfação do Cliente & Nível</div>
-        </div>
-        <div class="status-item">
-          <div class="status-item-top"><span class="dot-live" style="background:var(--purple)"></span> Radar Aderência</div>
-          <div class="status-item-metric" style="color:var(--purple)">Online</div>
-          <div class="status-item-label">Escala ao Vivo & Pausas NR-17</div>
-        </div>
-        <div class="status-item">
-          <div class="status-item-top"><span class="dot-live" style="background:var(--rose)"></span> Report Qualidade</div>
-          <div class="status-item-metric" style="color:var(--rose)">Online</div>
-          <div class="status-item-label">Monitoria Executiva e Audit</div>
-        </div>
+<!-- ========================= VERSÃO EM PORTUGUÊS ========================= -->
+<div id="site-pt">
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">samla<span>.dev</span></a>
+      <div class="nav-links">
+        <a href="#operacao">Sistemas</a>
+        <a href="#diferencial">Visão de Negócio</a>
+        <a href="#stack">Stack</a>
+        <a href="#contato">Contato</a>
+        <!-- Botão para mudar para Inglês -->
+        <button onclick="toggleLang()" class="lang-toggle">EN</button>
       </div>
     </div>
-  </div>
+  </nav>
 
-  <!-- SEÇÃO SISTEMAS / PROJETOS -->
-  <section id="operacao">
-    <div class="section-eyebrow">// Soluções de Operação</div>
-    <h2>Clique em qualquer card para abrir o protótipo ao vivo.</h2>
-    <p class="section-sub">
-      Sistemas construídos para resolver dores reais de operação. Clique para interagir diretamente com o protótipo funcional sem sair da página.
-    </p>
+  <div class="wrap">
+    
+    <!-- HERO -->
+    <div class="hero">
+      <div class="eyebrow"><span class="dot-live"></span> 4 Sistemas de Operação em Monitoramento</div>
+      <h1>Transformo planilhas travadas em <em>operações automatizadas que se monitoram sozinhas.</em></h1>
+      <p class="hero-sub">
+        <strong>Samla Almeida Cardoso</strong> — Analista de Operações & Desenvolvedora (ADS / Positivo | Jornalismo / Nilton Lins). 
+        Especializada em criar automações com Google Apps Script, dashboards interativos em JS e rotinas em Python/SQL para operações de alto volume com foco em Data Storytelling.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#operacao">Testar os Sistemas ↓</a>
+        <a class="btn btn-ghost" href="https://github.com/samosolesami" target="_blank">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/samla-cardoso-7aa99b185/" target="_blank">LinkedIn</a>
+      </div>
 
-    <div class="filter-bar">
-      <button class="filter-btn active" onclick="filtrarProjetos('todos', this)">Todos (4)</button>
-      <button class="filter-btn" onclick="filtrarProjetos('automacao', this)">Automação & Apps Script</button>
-      <button class="filter-btn" onclick="filtrarProjetos('dashboards', this)">Dashboards & Insights</button>
-      <button class="filter-btn" onclick="filtrarProjetos('regras', this)">Regras de Negócio</button>
+      <!-- STATUS STRIP -->
+      <div class="status-strip">
+        <div class="status-strip-head">
+          <span>Painel de Disponibilidade das Ferramentas</span>
+          <span>Status: 100% Operacional</span>
+        </div>
+        <div class="status-grid">
+          <div class="status-item">
+            <div class="status-item-top"><span class="dot-live" style="background:var(--pink)"></span> Monitor AHT</div>
+            <div class="status-item-metric" style="color:var(--pink)">Online</div>
+            <div class="status-item-label">Tempo Médio de Atendimento</div>
+          </div>
+          <div class="status-item">
+            <div class="status-item-top"><span class="dot-live" style="background:var(--magenta)"></span> Monitor CSAT</div>
+            <div class="status-item-metric" style="color:var(--magenta)">Online</div>
+            <div class="status-item-label">Satisfação do Cliente & Nível</div>
+          </div>
+          <div class="status-item">
+            <div class="status-item-top"><span class="dot-live" style="background:var(--purple)"></span> Radar Aderência</div>
+            <div class="status-item-metric" style="color:var(--purple)">Online</div>
+            <div class="status-item-label">Escala ao Vivo & Pausas NR-17</div>
+          </div>
+          <div class="status-item">
+            <div class="status-item-top"><span class="dot-live" style="background:var(--rose)"></span> Report Qualidade</div>
+            <div class="status-item-metric" style="color:var(--rose)">Online</div>
+            <div class="status-item-label">Monitoria Executiva e Audit</div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="projects" id="projectsContainer">
+    <!-- SEÇÃO SISTEMAS / PROJETOS -->
+    <section id="operacao">
+      <div class="section-eyebrow">// Soluções de Operação</div>
+      <h2>Clique em qualquer card para abrir o protótipo ao vivo.</h2>
+      <p class="section-sub">
+        Sistemas construídos para resolver dores reais de operação. Clique para interagir diretamente com o protótipo funcional sem sair da página.
+      </p>
+
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filtrarProjetos('todos', 'pt')">Todos (4)</button>
+        <button class="filter-btn" onclick="filtrarProjetos('automacao', 'pt')">Automação & Apps Script</button>
+        <button class="filter-btn" onclick="filtrarProjetos('dashboards', 'pt')">Dashboards & Insights</button>
+        <button class="filter-btn" onclick="filtrarProjetos('regras', 'pt')">Regras de Negócio</button>
+      </div>
+
+      <div class="projects" id="projectsContainer-pt">
+        <div class="project-card" data-category="automacao" style="--accent:var(--pink)" onclick="abrirModalProjeto('Monitor AHT — Gestão de SLA', '⏱️', './aht.html')">
+          <div class="project-icon">⏱️</div>
+          <div>
+            <div class="project-title">Monitor AHT — Gestão de SLA</div>
+            <div class="project-desc">Captura casos copiados de sistemas legados, classifica o tempo de atribuição por regex (OK / Atenção / Alerta / Crítico), registra histórico contínuo e calcula reincidência por operador.</div>
+            <div class="project-tags">
+              <span class="tag">Google Apps Script</span><span class="tag">Regex Parsing</span><span class="tag">Otimização de SLA</span>
+            </div>
+          </div>
+          <div class="project-cta">Abrir Protótipo →</div>
+        </div>
+
+        <div class="project-card" data-category="dashboards" style="--accent:var(--magenta)" onclick="abrirModalProjeto('Monitor CSAT Executivo', '📊', './csat.html')">
+          <div class="project-icon">📊</div>
+          <div>
+            <div class="project-title">Monitor CSAT Executivo</div>
+            <div class="project-desc">Dashboard de satisfação do cliente: visão por turno e supervisor, ranking de agentes em tempo real, cruzamento AHT x CSAT e geração automática de insights estratégicos diários.</div>
+            <div class="project-tags">
+              <span class="tag">JavaScript ES6</span><span class="tag">SVG Charting</span><span class="tag">Cruzamento de Métricas</span>
+            </div>
+          </div>
+          <div class="project-cta">Abrir Protótipo →</div>
+        </div>
+
+        <div class="project-card" data-category="regras" style="--accent:var(--purple)" onclick="abrirModalProjeto('Radar de Aderência à Escala', '📡', './radar.html')">
+          <div class="project-icon">📡</div>
+          <div>
+            <div class="project-title">Radar de Aderência à Escala</div>
+            <div class="project-desc">Painel ao vivo para gestão de escala: identifica pausas fora de hora, estouro de tempo de descanso e conformidade com NR-17, com filtros instantâneos e exportação de alertas.</div>
+            <div class="project-tags">
+              <span class="tag">Gestão da Operação</span><span class="tag">Conformidade NR-17</span><span class="tag">Real-time Radar</span>
+            </div>
+          </div>
+          <div class="project-cta">Abrir Protótipo →</div>
+        </div>
+
+        <div class="project-card" data-category="automacao" style="--accent:var(--rose)" onclick="abrirModalProjeto('Report Executivo de Qualidade', '🧠', './qa.html')">
+          <div class="project-icon">🧠</div>
+          <div>
+            <div class="project-title">Report Executivo de Qualidade</div>
+            <div class="project-desc">Central de auditoria de chamados: consolida leituras executivas automáticas, rankings por indicador, análise granular por ticket e exportação de resumos em lote.</div>
+            <div class="project-tags">
+              <span class="tag">Auditoria de Processos</span><span class="tag">Análise Granular</span><span class="tag">Exportação ZIP/CSV</span>
+            </div>
+          </div>
+          <div class="project-cta">Abrir Protótipo →</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO VISÃO DE NEGÓCIO -->
+    <section id="diferencial">
+      <div class="section-eyebrow">// O Diferencial</div>
+      <h2>Visão de Negócio Unida à Engenharia de Processos.</h2>
+      <p class="section-sub">Código sem propósito é só custo. O meu diferencial está em entender a dor financeira e operacional do negócio para criar soluções que reduzem custo e tempo.</p>
       
-      <!-- Card 1 -->
-      <div class="project-card" data-category="automacao" style="--accent:var(--pink)" 
-           onclick="abrirModalProjeto('Monitor AHT — Gestão de SLA', '⏱️', './aht.html')">
-        <div class="project-icon">⏱️</div>
-        <div>
-          <div class="project-title">Monitor AHT — Gestão de SLA</div>
-          <div class="project-desc">
-            Captura casos copiados de sistemas legados, classifica o tempo de atribuição por regex (OK / Atenção / Alerta / Crítico), registra histórico contínuo e calcula reincidência por operador.
+      <div class="about-card">
+        <div class="about-grid">
+          <div class="about-item">
+            <h3>🎯 Foco na Dor da Operação</h3>
+            <p>Mapeio gargalos em filas de atendimento, erros manuais de digitação e estouro de SLAs antes de escrever a primeira linha de código.</p>
           </div>
-          <div class="project-tags">
-            <span class="tag">Google Apps Script</span>
-            <span class="tag">Regex Parsing</span>
-            <span class="tag">Otimização de SLA</span>
+          <div class="about-item">
+            <h3>⚡ Automação de Alto Impacto</h3>
+            <p>Substituo processos manuais que levavam horas em planilhas por scripts leves no Google Workspace que rodam em segundos.</p>
           </div>
-        </div>
-        <div class="project-cta">Abrir Protótipo →</div>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="project-card" data-category="dashboards" style="--accent:var(--magenta)" 
-           onclick="abrirModalProjeto('Monitor CSAT Executivo', '📊', './csat.html')">
-        <div class="project-icon">📊</div>
-        <div>
-          <div class="project-title">Monitor CSAT Executivo</div>
-          <div class="project-desc">
-            Dashboard de satisfação do cliente: visão por turno e supervisor, ranking de agentes em tempo real, cruzamento AHT x CSAT e geração automática de insights estratégicos diários.
+          <div class="about-item">
+            <h3>📈 Comunicação & Data Storytelling</h3>
+            <p>Com bagagem em Jornalismo, traduzo métricas técnicas complexas em narrativas executivas claras para a diretoria tomar decisões ágeis.</p>
           </div>
-          <div class="project-tags">
-            <span class="tag">JavaScript ES6</span>
-            <span class="tag">SVG Charting</span>
-            <span class="tag">Cruzamento de Métricas</span>
-          </div>
-        </div>
-        <div class="project-cta">Abrir Protótipo →</div>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="project-card" data-category="regras" style="--accent:var(--purple)" 
-           onclick="abrirModalProjeto('Radar de Aderência à Escala', '📡', './radar.html')">
-        <div class="project-icon">📡</div>
-        <div>
-          <div class="project-title">Radar de Aderência à Escala</div>
-          <div class="project-desc">
-            Painel ao vivo para gestão de escala: identifica pausas fora de hora, estouro de tempo de descanso e conformidade com NR-17, com filtros instantâneos e exportação de alertas.
-          </div>
-          <div class="project-tags">
-            <span class="tag">Gestão da Operação</span>
-            <span class="tag">Conformidade NR-17</span>
-            <span class="tag">Real-time Radar</span>
-          </div>
-        </div>
-        <div class="project-cta">Abrir Protótipo →</div>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="project-card" data-category="automacao" style="--accent:var(--rose)" 
-           onclick="abrirModalProjeto('Report Executivo de Qualidade', '🧠', './qa.html')">
-        <div class="project-icon">🧠</div>
-        <div>
-          <div class="project-title">Report Executivo de Qualidade</div>
-          <div class="project-desc">
-            Central de auditoria de chamados: consolida leituras executivas automáticas, rankings por indicador, análise granular por ticket e exportação de resumos em lote.
-          </div>
-          <div class="project-tags">
-            <span class="tag">Auditoria de Processos</span>
-            <span class="tag">Análise Granular</span>
-            <span class="tag">Exportação ZIP/CSV</span>
-          </div>
-        </div>
-        <div class="project-cta">Abrir Protótipo →</div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- SEÇÃO VISÃO DE NEGÓCIO -->
-  <section id="diferencial">
-    <div class="section-eyebrow">// O Diferencial</div>
-    <h2>Visão de Negócio Unida à Engenharia de Processos.</h2>
-    <p class="section-sub">
-      Código sem propósito é só custo. O meu diferencial está em entender a dor financeira e operacional do negócio para criar soluções que reduzem custo e tempo.
-    </p>
-    <div class="about-card">
-      <div class="about-grid">
-        <div class="about-item">
-          <h3>🎯 Foco na Dor da Operação</h3>
-          <p>Mapeio gargalos em filas de atendimento, erros manuais de digitação e estouro de SLAs antes de escrever a primeira linha de código.</p>
-        </div>
-        <div class="about-item">
-          <h3>⚡ Automação de Alto Impacto</h3>
-          <p>Substituo processos manuais que levavam horas em planilhas por scripts leves no Google Workspace que rodam em segundos.</p>
-        </div>
-        <div class="about-item">
-          <h3>📈 Comunicação & Data Storytelling</h3>
-          <p>Com bagagem em Jornalismo, traduzo métricas técnicas complexas em narrativas executivas claras para a diretoria tomar decisões ágeis.</p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- STACK TÉCNICA -->
-  <section id="stack">
-    <div class="section-eyebrow">// Stack & Tecnologias</div>
-    <h2>Ferramentas do dia a dia.</h2>
-    <div class="skills-grid">
-      <div class="skill-chip"><span>⚡</span> Google Apps Script</div>
-      <div class="skill-chip"><span>📊</span> Google Sheets / Excel Avançado</div>
-      <div class="skill-chip"><span>🌐</span> JavaScript (ES6+)</div>
-      <div class="skill-chip"><span>🐍</span> Python (Pandas / Data Analysis)</div>
-      <div class="skill-chip"><span>🗄️</span> SQL</div>
-      <div class="skill-chip"><span>📈</span> Power BI</div>
-      <div class="skill-chip"><span>🧩</span> Regex & Webhooks</div>
-      <div class="skill-chip"><span>📜</span> Six Sigma White Belt</div>
-    </div>
-  </section>
+    <!-- STACK TÉCNICA -->
+    <section id="stack">
+      <div class="section-eyebrow">// Stack & Tecnologias</div>
+      <h2>Ferramentas do dia a dia.</h2>
+      <div class="skills-grid">
+        <div class="skill-chip"><span>⚡</span> Google Apps Script</div>
+        <div class="skill-chip"><span>📊</span> Excel Avançado / Sheets</div>
+        <div class="skill-chip"><span>🌐</span> JavaScript (ES6+)</div>
+        <div class="skill-chip"><span>🐍</span> Python (Pandas / Análise)</div>
+        <div class="skill-chip"><span>🗄️</span> SQL</div>
+        <div class="skill-chip"><span>📈</span> Power BI</div>
+        <div class="skill-chip"><span>🧩</span> Regex & Webhooks</div>
+        <div class="skill-chip"><span>📜</span> Six Sigma White Belt</div>
+      </div>
+    </section>
 
-  <!-- FOOTER & CONTATO -->
-  <footer id="contato">
-    <div style="font-weight: 700; font-size: 16px; color: var(--ink); margin-bottom: 8px;">
-      Samla Almeida Cardoso
-    </div>
-    <div>Análise e Desenvolvimento de Sistemas (Universidade Positivo) · Bacharel em Jornalismo (Universidade Nilton Lins)</div>
-    <div style="margin-top: 14px; display: flex; gap: 16px; justify-content: center; align-items: center; flex-wrap: wrap;">
-      <a href="https://www.linkedin.com/in/samla-cardoso-7aa99b185/" target="_blank">LinkedIn</a> •
-      <a href="https://github.com/samosolesami" target="_blank">GitHub</a> •
-      <a href="javascript:void(0)" onclick="copiarEmail()">Copiar E-mail (samosolesami@gmail.com)</a>
-    </div>
-    <div style="margin-top: 20px; font-size: 12px; opacity: 0.7;">
-      © Samla Cardoso. Desenvolvido para entregar resultados reais.
-    </div>
-  </footer>
-
+    <!-- FOOTER & CONTATO -->
+    <footer id="contato">
+      <div style="font-weight: 700; font-size: 16px; color: var(--ink); margin-bottom: 8px;">Samla Almeida Cardoso</div>
+      <div>Análise e Desenvolvimento de Sistemas (Universidade Positivo) · Bacharel em Jornalismo (Universidade Nilton Lins)</div>
+      <div style="margin-top: 14px; display: flex; gap: 16px; justify-content: center; align-items: center; flex-wrap: wrap;">
+        <a href="https://www.linkedin.com/in/samla-cardoso-7aa99b185/" target="_blank">LinkedIn</a> •
+        <a href="https://github.com/samosolesami" target="_blank">GitHub</a> •
+        <a href="javascript:void(0)" onclick="copiarEmail()">Copiar E-mail (samosolesami@gmail.com)</a>
+      </div>
+      <div style="margin-top: 20px; font-size: 12px; opacity: 0.7;">© Samla Cardoso. Desenvolvido para entregar resultados reais.</div>
+    </footer>
+  </div>
 </div>
+
+<!-- ========================= VERSÃO EM INGLÊS ========================= -->
+<div id="site-en" style="display: none;">
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">samla<span>.dev</span></a>
+      <div class="nav-links">
+        <a href="#operations-en">Systems</a>
+        <a href="#edge-en">Business Vision</a>
+        <a href="#stack-en">Stack</a>
+        <a href="#contact-en">Contact</a>
+        <!-- Botão para voltar para Português -->
+        <button onclick="toggleLang()" class="lang-toggle">PT</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    
+    <!-- HERO -->
+    <div class="hero">
+      <div class="eyebrow"><span class="dot-live"></span> 4 Operational Systems Monitoring</div>
+      <h1>I transform stuck spreadsheets into <em>automated operations that monitor themselves.</em></h1>
+      <p class="hero-sub">
+        <strong>Samla Almeida Cardoso</strong> — Operations Analyst & Developer (Systems Analysis / Positivo | Journalism / Nilton Lins). 
+        Specialized in creating automations with Google Apps Script, interactive JS dashboards, and Python/SQL routines for high-volume operations with a focus on Data Storytelling.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#operations-en">Test the Systems ↓</a>
+        <a class="btn btn-ghost" href="https://github.com/samosolesami" target="_blank">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/samla-cardoso-7aa99b185/" target="_blank">LinkedIn</a>
+      </div>
+
+      <!-- STATUS STRIP -->
+      <div class="status-strip">
+        <div class="status-strip-head">
+          <span>Tools Availability Dashboard</span>
+          <span>Status: 100% Operational</span>
+        </div>
+        <div class="status-grid">
+          <div class="status-item">
+            <div class="status-item-top"><span class="dot-live" style="background:var(--pink)"></span> AHT Monitor</div>
+            <div class="status-item-metric" style="color:var(--pink)">Online</div>
+            <div class="status-item-label">Average Handling Time</div>
+          </div>
+          <div class="status-item">
+            <div class="status-item-top"><span class="dot-live" style="background:var(--magenta)"></span> CSAT Monitor</div>
+            <div class="status-item-metric" style="color:var(--magenta)">Online</div>
+            <div class="status-item-label">Customer Satisfaction & Level</div>
+          </div>
+          <div class="status-item">
+            <div class="status-item-top"><span class="dot-live" style="background:var(--purple)"></span> Adherence Radar</div>
+            <div class="status-item-metric" style="color:var(--purple)">Online</div>
+            <div class="status-item-label">Live Schedule & Breaks (NR-17)</div>
+          </div>
+          <div class="status-item">
+            <div class="status-item-top"><span class="dot-live" style="background:var(--rose)"></span> Quality Report</div>
+            <div class="status-item-metric" style="color:var(--rose)">Online</div>
+            <div class="status-item-label">Executive Monitoring and Audit</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO SISTEMAS / PROJETOS -->
+    <section id="operations-en">
+      <div class="section-eyebrow">// Operational Solutions</div>
+      <h2>Click any card to open the live prototype.</h2>
+      <p class="section-sub">
+        Systems built to solve real operational pain points. Click to interact directly with the functional prototype without leaving the page.
+      </p>
+
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filtrarProjetos('todos', 'en')">All (4)</button>
+        <button class="filter-btn" onclick="filtrarProjetos('automacao', 'en')">Automation & Apps Script</button>
+        <button class="filter-btn" onclick="filtrarProjetos('dashboards', 'en')">Dashboards & Insights</button>
+        <button class="filter-btn" onclick="filtrarProjetos('regras', 'en')">Business Rules</button>
+      </div>
+
+      <div class="projects" id="projectsContainer-en">
+        <div class="project-card" data-category="automacao" style="--accent:var(--pink)" onclick="abrirModalProjeto('AHT Monitor — SLA Management', '⏱️', './aht.html')">
+          <div class="project-icon">⏱️</div>
+          <div>
+            <div class="project-title">AHT Monitor — SLA Management</div>
+            <div class="project-desc">Captures cases copied from legacy systems, classifies assignment time via regex (OK / Warning / Alert / Critical), keeps a continuous log, and calculates recurrence per agent.</div>
+            <div class="project-tags">
+              <span class="tag">Google Apps Script</span><span class="tag">Regex Parsing</span><span class="tag">SLA Optimization</span>
+            </div>
+          </div>
+          <div class="project-cta">Open Prototype →</div>
+        </div>
+
+        <div class="project-card" data-category="dashboards" style="--accent:var(--magenta)" onclick="abrirModalProjeto('Executive CSAT Monitor', '📊', './csat.html')">
+          <div class="project-icon">📊</div>
+          <div>
+            <div class="project-title">Executive CSAT Monitor</div>
+            <div class="project-desc">Customer satisfaction dashboard: view by shift and supervisor, real-time agent ranking, AHT vs. CSAT cross-referencing, and automated daily strategic insights generation.</div>
+            <div class="project-tags">
+              <span class="tag">JavaScript ES6</span><span class="tag">SVG Charting</span><span class="tag">Metrics Correlation</span>
+            </div>
+          </div>
+          <div class="project-cta">Open Prototype →</div>
+        </div>
+
+        <div class="project-card" data-category="regras" style="--accent:var(--purple)" onclick="abrirModalProjeto('Schedule Adherence Radar', '📡', './radar.html')">
+          <div class="project-icon">📡</div>
+          <div>
+            <div class="project-title">Schedule Adherence Radar</div>
+            <div class="project-desc">Live dashboard for schedule management: identifies unscheduled breaks, exceeded rest times, and labor compliance (NR-17), with instant filters and alert exports.</div>
+            <div class="project-tags">
+              <span class="tag">Operations Management</span><span class="tag">Labor Compliance (NR-17)</span><span class="tag">Real-time Radar</span>
+            </div>
+          </div>
+          <div class="project-cta">Open Prototype →</div>
+        </div>
+
+        <div class="project-card" data-category="automacao" style="--accent:var(--rose)" onclick="abrirModalProjeto('Executive Quality Report', '🧠', './qa.html')">
+          <div class="project-icon">🧠</div>
+          <div>
+            <div class="project-title">Executive Quality Report</div>
+            <div class="project-desc">Ticket audit center: consolidates automated executive readings, rankings by indicator, granular ticket analysis, and batch summary exports.</div>
+            <div class="project-tags">
+              <span class="tag">Process Auditing</span><span class="tag">Granular Analysis</span><span class="tag">ZIP/CSV Export</span>
+            </div>
+          </div>
+          <div class="project-cta">Open Prototype →</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO VISÃO DE NEGÓCIO -->
+    <section id="edge-en">
+      <div class="section-eyebrow">// The Edge</div>
+      <h2>Business Vision Meets Process Engineering.</h2>
+      <p class="section-sub">Code without purpose is just cost. My edge lies in understanding the financial and operational pain points of the business to create solutions that reduce cost and time.</p>
+      
+      <div class="about-card">
+        <div class="about-grid">
+          <div class="about-item">
+            <h3>🎯 Focus on Operational Pain</h3>
+            <p>I map bottlenecks in service queues, manual typing errors, and SLA breaches before writing the first line of code.</p>
+          </div>
+          <div class="about-item">
+            <h3>⚡ High-Impact Automation</h3>
+            <p>I replace manual processes that used to take hours in spreadsheets with lightweight Google Workspace scripts that run in seconds.</p>
+          </div>
+          <div class="about-item">
+            <h3>📈 Communication & Data Storytelling</h3>
+            <p>With a background in Journalism, I translate complex technical metrics into clear executive narratives for leadership to make agile decisions.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STACK TÉCNICA -->
+    <section id="stack-en">
+      <div class="section-eyebrow">// Stack & Technologies</div>
+      <h2>Daily toolkit.</h2>
+      <div class="skills-grid">
+        <div class="skill-chip"><span>⚡</span> Google Apps Script</div>
+        <div class="skill-chip"><span>📊</span> Advanced Excel / Sheets</div>
+        <div class="skill-chip"><span>🌐</span> JavaScript (ES6+)</div>
+        <div class="skill-chip"><span>🐍</span> Python (Pandas / Analysis)</div>
+        <div class="skill-chip"><span>🗄️</span> SQL</div>
+        <div class="skill-chip"><span>📈</span> Power BI</div>
+        <div class="skill-chip"><span>🧩</span> Regex & Webhooks</div>
+        <div class="skill-chip"><span>📜</span> Six Sigma White Belt</div>
+      </div>
+    </section>
+
+    <!-- FOOTER & CONTATO -->
+    <footer id="contact-en">
+      <div style="font-weight: 700; font-size: 16px; color: var(--ink); margin-bottom: 8px;">Samla Almeida Cardoso</div>
+      <div>Systems Analysis and Development (Universidade Positivo) · BA in Journalism (Universidade Nilton Lins)</div>
+      <div style="margin-top: 14px; display: flex; gap: 16px; justify-content: center; align-items: center; flex-wrap: wrap;">
+        <a href="https://www.linkedin.com/in/samla-cardoso-7aa99b185/" target="_blank">LinkedIn</a> •
+        <a href="https://github.com/samosolesami" target="_blank">GitHub</a> •
+        <a href="javascript:void(0)" onclick="copiarEmail()">Copy Email (samosolesami@gmail.com)</a>
+      </div>
+      <div style="margin-top: 20px; font-size: 12px; opacity: 0.7;">© Samla Cardoso. Developed to deliver real results.</div>
+    </footer>
+  </div>
+</div>
+
+<!-- ========================= ELEMENTOS COMPARTILHADOS (MODAL & TOAST) ========================= -->
 
 <!-- MODAL PARA PROTÓTIPO AO VIVO -->
 <div class="modal-overlay" id="modalOverlay" onclick="fecharModalOverlay(event)">
   <div class="modal-box">
     <div class="modal-head">
       <div class="modal-head-title" id="modalTitle">
-        <span>⏱️</span> Protótipo ao Vivo
+        <!-- O título é injetado via JS dependendo do card clicado -->
       </div>
-      <button class="modal-close" onclick="fecharModal()" title="Fechar (Esc)">✕</button>
+      <button class="modal-close" onclick="fecharModal()" title="Close / Fechar (Esc)">✕</button>
     </div>
     <div class="modal-body" id="modalBody">
       <iframe id="modalFrame" src=""></iframe>
@@ -662,13 +633,31 @@
 <div class="toast" id="toast">E-mail copiado para a área de transferência! 📋</div>
 
 <script>
+  // LÓGICA DE ALTERNÂNCIA DE IDIOMA
+  function toggleLang() {
+    const sitePt = document.getElementById('site-pt');
+    const siteEn = document.getElementById('site-en');
+    
+    if (sitePt.style.display !== 'none') {
+      // Muda para Inglês
+      sitePt.style.display = 'none';
+      siteEn.style.display = 'block';
+      document.documentElement.lang = 'en';
+    } else {
+      // Muda para Português
+      sitePt.style.display = 'block';
+      siteEn.style.display = 'none';
+      document.documentElement.lang = 'pt-BR';
+    }
+  }
+
+  // LÓGICA DO MODAL
   function abrirModalProjeto(titulo, icone, arquivoDemo) {
     const modalOverlay = document.getElementById('modalOverlay');
     const modalTitle = document.getElementById('modalTitle');
     const modalFrame = document.getElementById('modalFrame');
 
     modalTitle.innerHTML = `<span>${icone}</span> ${titulo}`;
-    // Usamos o SRC apontando para os seus arquivos salvos na mesma pasta
     modalFrame.src = arquivoDemo;
 
     modalOverlay.classList.add('open');
@@ -694,11 +683,18 @@
     if (e.key === 'Escape') fecharModal();
   });
 
-  function filtrarProjetos(categoria, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+  // LÓGICA DE FILTRAGEM DE PROJETOS (Sincronizada para os dois idiomas)
+  function filtrarProjetos(categoria, lang) {
+    // 1. Atualiza visualmente os botões no idioma ativo
+    const botoes = document.querySelectorAll(`#site-${lang} .filter-btn`);
+    botoes.forEach(b => b.classList.remove('active'));
+    
+    // Encontra o botão clicado (ou equivalente) e ativa
+    const botaoAtivo = document.querySelector(`#site-${lang} .filter-btn[onclick="filtrarProjetos('${categoria}', '${lang}')"]`);
+    if(botaoAtivo) botaoAtivo.classList.add('active');
 
-    const cards = document.querySelectorAll('.project-card');
+    // 2. Filtra os cards no container do idioma ativo
+    const cards = document.querySelectorAll(`#projectsContainer-${lang} .project-card`);
     cards.forEach(card => {
       if (categoria === 'todos' || card.getAttribute('data-category') === categoria) {
         card.style.display = 'grid';
@@ -708,9 +704,15 @@
     });
   }
 
+  // LÓGICA DE CÓPIA DE E-MAIL
   function copiarEmail() {
     navigator.clipboard.writeText('samosolesami@gmail.com').then(() => {
+      const isEng = document.documentElement.lang === 'en';
       const toast = document.getElementById('toast');
+      
+      // Traduz o toast dinamicamente de acordo com a linguagem atual
+      toast.innerText = isEng ? 'Email copied to clipboard! 📋' : 'E-mail copiado para a área de transferência! 📋';
+      
       toast.style.display = 'block';
       setTimeout(() => { toast.style.display = 'none'; }, 3000);
     });
